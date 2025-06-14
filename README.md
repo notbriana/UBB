@@ -1,2 +1,2 @@
 # UBB
-Repo for uni
+All the work I have done during university :)
