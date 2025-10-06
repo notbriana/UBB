@@ -1,0 +1,6 @@
+Alice TechTalk 10.0 20.0 2025-06-15
+A talk about the latest in technology.
+Diana ArtExpo 11.0 21.0 2025-07-01
+An exhibition of modern art.
+Alice CodeJam 10.0 20.0 2025-06-20
+A fun coding competition for all levels.
