@@ -1,0 +1,2 @@
+Alice;E.coli,Salmonella
+Bob;Staphylococcus,E.coli
