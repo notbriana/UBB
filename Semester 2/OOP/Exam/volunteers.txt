@@ -1,0 +1,11 @@
+Alice|alice@email.com|teaching,reading,children|Education
+Bob|bob@email.com|first aid,patients,care,clinics,hospital|Healthcare
+Carol|carol@email.com|recycling,cleaning,trees|Environment
+David|david@email.com|events,donations,marketing,care,first aid,patients|
+k|k@gmail.com|funds,NGO,events,raise|Fundraising
+Hana|hanalol@gmail.com|funds,events,donations,raise,NGO|Environment
+Hana|hanalo@gmail.com|funds,events,donations,raise,NGO,care|Fundraising
+j|l|environmental,organizing,clean-up|Environment
+ama|alice@email.com|teaching,reading,children|Education
+awa|alice@email.com|teaching,reading,children|Education
+a|a|a|Environment
