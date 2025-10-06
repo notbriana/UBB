@@ -1,0 +1,4 @@
+John Doe,undiagnosed,,,"2025-06-08"
+Jane Roe,Flu,Pediatrics,Dr. Carol White,"2025-06-07"
+Mark Black,Stroke,Neurology,Dr. Bob Johnson,"2025-06-06"
+Emily Green,undiagnosed,,,"2025-06-08"
