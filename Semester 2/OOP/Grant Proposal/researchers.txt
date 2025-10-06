@@ -1,0 +1,3 @@
+Alice Smith,phd student
+Bob Johnson,postdoc
+Carol White,senior

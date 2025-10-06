@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grant proposal", "grant proposal.vcxproj", "{D30256FF-2D79-4205-92CE-F9C99024E802}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D30256FF-2D79-4205-92CE-F9C99024E802}.Debug|x64.ActiveCfg = Debug|x64
+		{D30256FF-2D79-4205-92CE-F9C99024E802}.Debug|x64.Build.0 = Debug|x64
+		{D30256FF-2D79-4205-92CE-F9C99024E802}.Release|x64.ActiveCfg = Release|x64
+		{D30256FF-2D79-4205-92CE-F9C99024E802}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F58491A2-6C85-4956-A74A-7D6B048A21BD}
+	EndGlobalSection
+EndGlobal
