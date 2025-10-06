@@ -1,0 +1,10 @@
+Button not responsive,open,Bob,
+Memory leak in module,open,Dave,
+Incorrect calculation in report,closed,Bob,Carol
+App freezes on logout,open,Dave,
+Settings not saved,closed,Bob,Alice
+Slow loading dashboard,open,Dave,
+Crash when importing file,open,Bob,
+Spelling mistake in help,closed,Dave,Carol
+Dark mode not applied,open,Bob,
+Notification sound missing,closed,Bob,Alice
