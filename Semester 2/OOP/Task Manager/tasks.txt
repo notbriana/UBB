@@ -1,0 +1,11 @@
+Implement login|open|-1
+Design database schema|in progress|2
+Write unit tests|open|-1
+Fix bug #123|closed|1
+Update documentation|open|-1
+Refactor codebase|in progress|3
+Optimize queries|closed|4
+Setup CI/CD|closed|2
+Review pull requests|in progress|2
+Deploy to production|closed|5
+aaaa|open|-1
