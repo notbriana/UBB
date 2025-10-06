@@ -1,0 +1,4 @@
+Alice 10 20 3
+Bob 15.5 25.5 5
+Charlie 5 18 1
+Diana 12 22 1
