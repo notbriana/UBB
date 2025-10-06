@@ -1,0 +1,4 @@
+1 How do I reverse a string in C++?|alice
+2 What is a smart pointer?|bob
+3 How to use std::vector?|carol
+4 kmsxscmsl|bob
