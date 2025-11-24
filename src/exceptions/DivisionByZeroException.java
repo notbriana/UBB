@@ -1,7 +1,7 @@
 package exceptions;
 
 public class DivisionByZeroException extends Exception {
-    public DivisionByZeroException() {
+    public DivisionByZeroException(String divisionByZero) {
         super("Division by zero error!");
     }
 }

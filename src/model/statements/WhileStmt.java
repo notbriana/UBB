@@ -10,23 +10,23 @@ import model.types.BoolType;
 import model.values.BoolValue;
 import model.values.Value;
 
-public record IfStmt(Exp condition, IStmt thenStmt, IStmt elseStmt) implements IStmt {
+public record WhileStmt(Exp expression, IStmt statement) implements IStmt {
 
     @Override
     public PrgState execute(PrgState state)
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
 
-        Value condValue = condition.eval(state.symTable(), state.heap());
+        Value conditionValue = expression.eval(state.symTable(), state.heap());
 
-        if (!(condValue.getType() instanceof BoolType)) {
-            throw new TypeMismatchException("Condition is not a boolean");
+        if (!(conditionValue.getType() instanceof BoolType)) {
+            throw new TypeMismatchException("Condition expression is not a boolean");
         }
 
-        BoolValue boolValue = (BoolValue) condValue;
+        BoolValue boolValue = (BoolValue) conditionValue;
+
         if (boolValue.value()) {
-            state.exeStack().push(thenStmt);
-        } else {
-            state.exeStack().push(elseStmt);
+            state.exeStack().push(this);
+            state.exeStack().push(statement);
         }
 
         return state;
@@ -34,6 +34,6 @@ public record IfStmt(Exp condition, IStmt thenStmt, IStmt elseStmt) implements I
 
     @Override
     public String toString() {
-        return "if (" + condition.toString() + ") then " + thenStmt.toString() + " else " + elseStmt.toString();
+        return "while (" + expression.toString() + ") " + statement.toString();
     }
 }

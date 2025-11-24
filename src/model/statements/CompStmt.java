@@ -1,20 +1,24 @@
 package model.statements;
 
-import model.ADTs.IExeStack;
+import exceptions.CollectionException;
+import exceptions.DivisionByZeroException;
+import exceptions.TypeMismatchException;
+import exceptions.UndefinedVariableException;
 import model.PrgState;
 
 public record CompStmt(IStmt first, IStmt second) implements IStmt {
 
     @Override
-    public PrgState execute(final PrgState state) {
-        final IExeStack<IStmt> stk = state.getExeStack();
-        stk.push(second);
-        stk.push(first);
+    public PrgState execute(PrgState state)
+            throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
+
+        state.exeStack().push(second);
+        state.exeStack().push(first);
         return state;
     }
 
     @Override
     public String toString() {
-        return "(" + first + "; " + second + ")";
+        return "(" + first.toString() + "; " + second.toString() + ")";
     }
 }

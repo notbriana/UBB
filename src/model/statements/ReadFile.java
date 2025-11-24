@@ -5,6 +5,7 @@ import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
 import model.ADTs.IFileTable;
+import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
@@ -23,8 +24,10 @@ public record ReadFile(Exp exp, String varName) implements IStmt {
     public PrgState execute(PrgState state)
             throws CollectionException, TypeMismatchException, UndefinedVariableException, DivisionByZeroException {
 
-        ISymbolTable<String, Value> symTable = state.getSymTable();
-        IFileTable fileTable = state.getFileTable();
+        ISymbolTable<String, Value> symTable = state.symTable();
+        IHeap<Integer, Value> heap = state.heap();
+
+        IFileTable fileTable = state.fileTable();
 
         if (!symTable.isDefined(varName))
             throw new UndefinedVariableException("ReadFile: variable " + varName + " not defined");
@@ -33,7 +36,7 @@ public record ReadFile(Exp exp, String varName) implements IStmt {
         if (!(varVal.getType() instanceof IntType))
             throw new TypeMismatchException("ReadFile: variable must be int");
 
-        Value expVal = exp.eval(symTable);
+        Value expVal = exp.eval(symTable, heap);
         if (!(expVal.getType() instanceof StringType))
             throw new TypeMismatchException("ReadFile: expression must evaluate to string");
 

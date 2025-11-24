@@ -2,17 +2,15 @@ package model.expressions;
 
 import exceptions.CollectionException;
 import exceptions.UndefinedVariableException;
+import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
 import model.values.Value;
 
 public record VarExp(String id) implements Exp {
 
     @Override
-    public Value eval(final ISymbolTable<String, Value> symTable)
-            throws CollectionException, UndefinedVariableException {
-        if (!symTable.isDefined(id)) {
-            throw new UndefinedVariableException(id);
-        }
+    public Value eval(ISymbolTable<String, Value> symTable, IHeap<Integer, Value> heap)
+            throws UndefinedVariableException, CollectionException {
         return symTable.lookup(id);
     }
 
@@ -21,3 +19,4 @@ public record VarExp(String id) implements Exp {
         return id;
     }
 }
+

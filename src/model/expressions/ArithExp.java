@@ -4,43 +4,51 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
+import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
 import model.types.IntType;
 import model.values.IntValue;
 import model.values.Value;
 
-public record ArithExp(char op, Exp e1, Exp e2) implements Exp {
+public record ArithExp(Exp exp1, Exp exp2, String operation) implements Exp {
 
     @Override
-    public Value eval(final ISymbolTable<String, Value> symTable)
+    public Value eval(ISymbolTable<String, Value> symTable, IHeap<Integer, Value> heap)
             throws DivisionByZeroException, TypeMismatchException, UndefinedVariableException, CollectionException {
-        final Value v1 = e1.eval(symTable);
-        if (!v1.getType().equals(new IntType())) {
-            throw new TypeMismatchException("first operand not integer");
-        }
-        final Value v2 = e2.eval(symTable);
-        if (!v2.getType().equals(new IntType())) {
-            throw new TypeMismatchException("second operand not integer");
-        }
-        final int n1 = ((IntValue) v1).value();
-        final int n2 = ((IntValue) v2).value();
 
-        return switch (op) {
-            case '+' -> new IntValue(n1 + n2);
-            case '-' -> new IntValue(n1 - n2);
-            case '*' -> new IntValue(n1 * n2);
-            case '/' -> {
+        Value v1 = exp1.eval(symTable, heap);
+        Value v2 = exp2.eval(symTable, heap);
+
+        if (!(v1.getType() instanceof IntType)) {
+            throw new TypeMismatchException("First operand is not an integer");
+        }
+        if (!(v2.getType() instanceof IntType)) {
+            throw new TypeMismatchException("Second operand is not an integer");
+        }
+
+        IntValue i1 = (IntValue) v1;
+        IntValue i2 = (IntValue) v2;
+
+        int n1 = i1.value();
+        int n2 = i2.value();
+        int result = switch (operation) {
+            case "+" -> n1 + n2;
+            case "-" -> n1 - n2;
+            case "*" -> n1 * n2;
+            case "/" -> {
                 if (n2 == 0) {
-                    throw new DivisionByZeroException();
+                    throw new DivisionByZeroException("Division by zero");
                 }
-                yield new IntValue(n1 / n2);
+                yield n1 / n2;
             }
-            default -> throw new TypeMismatchException("unknown arithmetic operator: " + op);
+            default -> throw new TypeMismatchException("Unknown operation: " + operation);
         };
+
+        return new IntValue(result);
     }
 
     @Override
     public String toString() {
-        return e1 + " " + op + " " + e2;
+        return exp1.toString() + " " + operation + " " + exp2.toString();
     }
 }

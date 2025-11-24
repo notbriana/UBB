@@ -16,33 +16,34 @@ public record Repository(PrgState program, String logFilePath) implements IRepos
     }
 
     @Override
-    public void logPrgState(final PrgState state) throws CollectionException {
-        logPrgStateExec();
-    }
-
-    @Override
     public void logPrgStateExec() throws CollectionException {
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
 
             logFile.println("ExeStack:");
-            var stack = program.getExeStack();
+            var stack = program.exeStack();
             logFile.println("   " + stack.toString());
 
             logFile.println("SymTable:");
-            var symTable = program.getSymTable().getContent();
+            var symTable = program.symTable().getContent();
             for (var entry : symTable.entrySet()) {
                 logFile.println("   " + entry.getKey() + " --> " + entry.getValue());
             }
 
             logFile.println("Out:");
-            var outList = program.getOut().getList();
+            var outList = program.out().getList();
             for (var value : outList) {
                 logFile.println("   " + value);
             }
 
-            if (program.getFileTable() != null) {
+            logFile.println("Heap:");
+            var heap = program.heap().getContent();
+            for (var entry : heap.entrySet()) {
+                logFile.println("   " + entry.getKey() + " --> " + entry.getValue());
+            }
+
+            if (program.fileTable() != null) {
                 logFile.println("FileTable:");
-                var fileTable = program.getFileTable().getContent();
+                var fileTable = program.fileTable().getContent();
                 for (var entry : fileTable.entrySet()) {
                     logFile.println("   " + entry.getKey());
                 }

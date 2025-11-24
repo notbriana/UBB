@@ -4,30 +4,52 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
-import model.ADTs.IExeStack;
 import model.PrgState;
 import model.statements.IStmt;
+import model.utils.GarbageCollector;
 import repository.IRepository;
 
-public record Controller(IRepository repo) {
+public class Controller {
+    private final IRepository repo;
 
-    public void oneStep(final PrgState state)
+    public Controller(IRepository repo) {
+        this.repo = repo;
+    }
+
+    public void oneStep(PrgState state)
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
-        final IExeStack<IStmt> stk = state.getExeStack();
-        if (stk.isEmpty()) {
+
+        if (state.exeStack().isEmpty()) {
             throw new CollectionException("Execution stack is empty");
         }
-        final IStmt crt = stk.pop();
-        crt.execute(state);
+
+        IStmt currentStmt = state.exeStack().pop();
+        currentStmt.execute(state);
     }
 
     public void allStep()
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
-        final PrgState prg = repo.getCrtPrg();
-        repo.logPrgState(prg);
-        while (!prg.getExeStack().isEmpty()) {
+
+        PrgState prg = repo.getCrtPrg();
+        repo.logPrgStateExec();
+
+        while (!prg.exeStack().isEmpty()) {
             oneStep(prg);
-            repo.logPrgState(prg);
+
+            prg.heap().setContent(
+                    GarbageCollector.safeGarbageCollector(
+                            GarbageCollector.getAddrFromSymTable(
+                                    prg.symTable().getContent().values()
+                            ),
+                            prg.heap().getContent()
+                    )
+            );
+
+            repo.logPrgStateExec();
         }
+    }
+
+    public IRepository getRepo() {
+        return repo;
     }
 }

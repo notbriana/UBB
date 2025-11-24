@@ -20,12 +20,12 @@ public record CloseRFile(Exp exp) implements IStmt {
     public PrgState execute(PrgState state)
             throws CollectionException, TypeMismatchException, UndefinedVariableException, DivisionByZeroException {
 
-        Value val = exp.eval(state.getSymTable());
+        Value val = exp.eval(state.symTable(), state.heap());
         if (!(val.getType() instanceof StringType))
             throw new TypeMismatchException("CloseRFile: expression is not a string");
 
         StringValue strVal = (StringValue) val;
-        IFileTable fileTable = state.getFileTable();
+        IFileTable fileTable = state.fileTable();
 
         if (!fileTable.isDefined(strVal))
             throw new CollectionException("CloseRFile: file not open: " + strVal.val());

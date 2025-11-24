@@ -4,31 +4,33 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
-import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.values.Value;
 
-public record AssignStmt(String id, Exp exp) implements IStmt {
+public record AssignStmt(String varName, Exp expression) implements IStmt {
 
     @Override
-    public PrgState execute(final PrgState state)
+    public PrgState execute(PrgState state)
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
-        final ISymbolTable<String, Value> sym = state.getSymTable();
-        if (!sym.isDefined(id)) {
-            throw new UndefinedVariableException(id);
+
+        Value val = expression.eval(state.symTable(), state.heap());
+
+        if (!state.symTable().isDefined(varName)) {
+            throw new UndefinedVariableException("Variable " + varName + " is not defined");
         }
-        final Value val = exp.eval(sym);
-        final Value current = sym.lookup(id);
-        if (!val.getType().equals(current.getType())) {
-            throw new TypeMismatchException("variable '" + id + "' and expression have different types");
+
+        Value varValue = state.symTable().lookup(varName);
+        if (!val.getType().equals(varValue.getType())) {
+            throw new TypeMismatchException("Type mismatch for variable " + varName);
         }
-        sym.update(id, val);
+
+        state.symTable().update(varName, val);
         return state;
     }
 
     @Override
     public String toString() {
-        return id + " = " + exp;
+        return varName + " = " + expression.toString();
     }
 }

@@ -1,29 +1,30 @@
 package model.statements;
 
 import exceptions.CollectionException;
-import model.ADTs.ISymbolTable;
+import exceptions.DivisionByZeroException;
+import exceptions.TypeMismatchException;
+import exceptions.UndefinedVariableException;
 import model.PrgState;
 import model.types.Type;
 import model.values.Value;
 
-public record VarDeclStmt(String name, Type type) implements IStmt {
+public record VarDeclStmt(String varName, Type type) implements IStmt {
 
     @Override
-    public PrgState execute(final PrgState state) throws CollectionException {
-        final ISymbolTable<String, Value> sym = state.getSymTable();
+    public PrgState execute(PrgState state)
+            throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
 
-        if (sym.isDefined(name)) {
-            throw new CollectionException("Variable already declared: " + name);
+        if (state.symTable().isDefined(varName)) {
+            throw new CollectionException("Variable " + varName + " is already defined");
         }
 
-        final Value defaultValue = type.defaultValue();
-        sym.put(name, defaultValue);
-
+        Value defaultValue = type.defaultValue();
+        state.symTable().put(varName, defaultValue);
         return state;
     }
 
     @Override
     public String toString() {
-        return type + " " + name;
+        return type.toString() + " " + varName;
     }
 }

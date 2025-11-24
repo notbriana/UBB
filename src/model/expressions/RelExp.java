@@ -6,12 +6,12 @@ import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
 import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
-import model.types.BoolType;
+import model.types.IntType;
 import model.values.BoolValue;
+import model.values.IntValue;
 import model.values.Value;
 
-
-public record LogicExp(Exp exp1, Exp exp2, String operation) implements Exp {
+public record RelExp(Exp exp1, Exp exp2, String operation) implements Exp {
 
     @Override
     public Value eval(ISymbolTable<String, Value> symTable, IHeap<Integer, Value> heap)
@@ -20,19 +20,25 @@ public record LogicExp(Exp exp1, Exp exp2, String operation) implements Exp {
         Value v1 = exp1.eval(symTable, heap);
         Value v2 = exp2.eval(symTable, heap);
 
-        if (!(v1.getType() instanceof BoolType)) {
-            throw new TypeMismatchException("First operand is not a boolean");
+        if (!(v1.getType() instanceof IntType)) {
+            throw new TypeMismatchException("First operand is not an integer");
         }
-        if (!(v2.getType() instanceof BoolType)) {
-            throw new TypeMismatchException("Second operand is not a boolean");
+        if (!(v2.getType() instanceof IntType)) {
+            throw new TypeMismatchException("Second operand is not an integer");
         }
 
-        BoolValue b1 = (BoolValue) v1;
-        BoolValue b2 = (BoolValue) v2;
+        IntValue i1 = (IntValue) v1;
+        IntValue i2 = (IntValue) v2;
 
+        int n1 = i1.value();
+        int n2 = i2.value();
         boolean result = switch (operation) {
-            case "&&" -> b1.value() && b2.value();
-            case "||" -> b1.value() || b2.value();
+            case "<" -> n1 < n2;
+            case "<=" -> n1 <= n2;
+            case ">" -> n1 > n2;
+            case ">=" -> n1 >= n2;
+            case "==" -> n1 == n2;
+            case "!=" -> n1 != n2;
             default -> throw new TypeMismatchException("Unknown operation: " + operation);
         };
 

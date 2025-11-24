@@ -4,26 +4,23 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
-import model.ADTs.IOut;
-import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.values.Value;
 
-public record PrintStmt(Exp exp) implements IStmt {
+public record PrintStmt(Exp expression) implements IStmt {
 
     @Override
-    public PrgState execute(final PrgState state)
+    public PrgState execute(PrgState state)
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
-        final IOut<Value> out = state.getOut();
-        final ISymbolTable<String, Value> sym = state.getSymTable();
-        final Value v = exp.eval(sym);
-        out.add(v);
+
+        Value val = expression.eval(state.symTable(), state.heap());
+        state.out().add(val);
         return state;
     }
 
     @Override
     public String toString() {
-        return "Print(" + exp + ")";
+        return "print(" + expression.toString() + ")";
     }
 }
