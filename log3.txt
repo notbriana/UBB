@@ -1,0 +1,101 @@
+ExeStack:
+   [(int x; (int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int x, (int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+   x --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int y, (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [x = 10, (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [y = x - 4, if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(print(x); print(y))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [print(x), print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+   10
+FileTable:
+------------------------------------------------------
+ExeStack:
+   []
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+   10
+   6
+FileTable:
+------------------------------------------------------

@@ -1,0 +1,166 @@
+ExeStack:
+   [(int a; (int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int a, (int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))))]
+SymTable:
+   a --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int b, (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))]
+SymTable:
+   a --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [a = 2 + 3 * 5, (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [b = a + 1, If(b < a) Then(Print(true)) Else(Print(false))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [If(b < a) Then(Print(true)) Else(Print(false))]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [Print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   []
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+   false
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(int a; (int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int a, (int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))))]
+SymTable:
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(int b; (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))))]
+SymTable:
+   a --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [int b, (a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))]
+SymTable:
+   a --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(a = 2 + 3 * 5; (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false))))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [a = 2 + 3 * 5, (b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [(b = a + 1; If(b < a) Then(Print(true)) Else(Print(false)))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [b = a + 1, If(b < a) Then(Print(true)) Else(Print(false))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [If(b < a) Then(Print(true)) Else(Print(false))]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   [Print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+FileTable:
+------------------------------------------------------
+ExeStack:
+   []
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+   false
+FileTable:
+------------------------------------------------------
