@@ -51,4 +51,13 @@ public class SymbolTable<K, V> implements ISymbolTable<K, V> {
         return map;
     }
 
+    @Override
+    public ISymbolTable<K, V> clone() {
+        SymbolTable<K, V> cloned = new SymbolTable<>();
+        for (Map.Entry<K, V> entry : this.map.entrySet()) {
+            cloned.put(entry.getKey(), entry.getValue());
+        }
+        return cloned;
+    }
+
 }

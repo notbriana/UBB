@@ -209,6 +209,83 @@ public class Interpreter {
                 )
         );
 
+        IStmt ex8 = new CompStmt(
+                new VarDeclStmt("v", new IntType()),
+                new CompStmt(
+                        new VarDeclStmt("a", new RefType(new IntType())),
+                        new CompStmt(
+                                new AssignStmt("v", new ValueExp(new IntValue(10))),
+                                new CompStmt(
+                                        new NewStmt("a", new ValueExp(new IntValue(22))),
+                                        new CompStmt(
+                                                new ForkStmt(
+                                                        new CompStmt(
+                                                                new WriteHeapStmt("a", new ValueExp(new IntValue(30))),
+                                                                new CompStmt(
+                                                                        new AssignStmt("v", new ValueExp(new IntValue(32))),
+                                                                        new CompStmt(
+                                                                                new PrintStmt(new VarExp("v")),
+                                                                                new PrintStmt(new ReadHeapExp(new VarExp("a")))
+                                                                        )
+                                                                )
+                                                        )
+                                                ),
+                                                new CompStmt(
+                                                        new PrintStmt(new VarExp("v")),
+                                                        new PrintStmt(new ReadHeapExp(new VarExp("a")))
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+
+        IStmt ex9 = new CompStmt(
+                new VarDeclStmt("a", new IntType()),
+                new CompStmt(
+                        new AssignStmt("a", new ValueExp(new IntValue(10))),
+                        new CompStmt(
+                                new ForkStmt(
+                                        new CompStmt(
+                                                new AssignStmt("a", new ValueExp(new IntValue(20))),
+                                                new PrintStmt(new VarExp("a"))
+                                        )
+                                ),
+                                new PrintStmt(new VarExp("a"))
+                        )
+                )
+        );
+
+        IStmt ex10 = new CompStmt(
+                new VarDeclStmt("a", new IntType()),
+                new CompStmt(
+                        new AssignStmt("a", new ValueExp(new IntValue(10))),
+                        new CompStmt(
+                                new ForkStmt(
+                                        new CompStmt(
+                                                new VarDeclStmt("b", new IntType()),
+                                                new CompStmt(
+                                                        new AssignStmt("b", new ValueExp(new IntValue(20))),
+                                                        new CompStmt(
+                                                                new ForkStmt(
+                                                                        new CompStmt(
+                                                                                new VarDeclStmt("c", new IntType()),
+                                                                                new CompStmt(
+                                                                                        new AssignStmt("c", new ValueExp(new IntValue(30))),
+                                                                                        new PrintStmt(new VarExp("c"))
+                                                                                )
+                                                                        )
+                                                                ),
+                                                                new PrintStmt(new VarExp("b"))
+                                                        )
+                                                )
+                                        )
+                                ),
+                                new PrintStmt(new VarExp("a"))
+                        )
+                )
+        );
+
 
         Controller ctr1 = buildController(ex1, "log1.txt");
         Controller ctr2 = buildController(ex2, "log2.txt");
@@ -217,6 +294,9 @@ public class Interpreter {
         Controller ctr5 = buildController(ex5, "log5.txt");
         Controller ctr6 = buildController(ex6, "log6.txt");
         Controller ctr7 = buildController(ex7, "log7.txt");
+        Controller ctr8 = buildController(ex8, "log8.txt");
+        Controller ctr9 = buildController(ex9, "log9.txt");
+        Controller ctr10 = buildController(ex10, "log10.txt");
 
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "Exit interpreter"));
@@ -227,6 +307,9 @@ public class Interpreter {
         menu.addCommand(new RunExample("5", "While Loop", ctr5));
         menu.addCommand(new RunExample("6", "Garbage Collector no delete", ctr6));
         menu.addCommand(new RunExample("7", "Garbage Collection with delete", ctr7));
+        menu.addCommand(new RunExample("8", "Fork Ex lab 8", ctr8));
+        menu.addCommand(new RunExample("9", "Simple Fork Example", ctr9));
+        menu.addCommand(new RunExample("10", "Nested Fork Example", ctr10));
 
         menu.show();
     }

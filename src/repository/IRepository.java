@@ -3,8 +3,12 @@ package repository;
 import exceptions.CollectionException;
 import model.PrgState;
 
-public interface IRepository {
-    PrgState getCrtPrg();
+import java.util.List;
 
-    void logPrgStateExec() throws CollectionException;
+public interface IRepository {
+    List<PrgState> getPrgList();
+
+    void setPrgList(List<PrgState> prgList);
+
+    void logPrgStateExec(PrgState state) throws CollectionException;
 }

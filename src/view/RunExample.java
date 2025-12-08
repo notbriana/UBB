@@ -1,10 +1,6 @@
 package view;
 
 import controller.Controller;
-import exceptions.CollectionException;
-import exceptions.DivisionByZeroException;
-import exceptions.TypeMismatchException;
-import exceptions.UndefinedVariableException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +19,10 @@ public class RunExample extends Command {
         try {
             controller.allStep();
             LOGGER.info("Program executed successfully.");
-        } catch (CollectionException | DivisionByZeroException | TypeMismatchException | UndefinedVariableException e) {
+        } catch (InterruptedException e) {
+            LOGGER.log(Level.SEVERE, "Execution interrupted: {0}", e.getMessage());
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Execution error: {0}", e.getMessage());
         }
     }

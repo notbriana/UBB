@@ -7,43 +7,60 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-public record Repository(PrgState program, String logFilePath) implements IRepository {
+public class Repository implements IRepository {
+    private List<PrgState> programs;
+    private final String logFilePath;
 
-    @Override
-    public PrgState getCrtPrg() {
-        return program;
+    public Repository(PrgState program, String logFilePath) {
+        this.programs = new ArrayList<>();
+        this.programs.add(program);
+        this.logFilePath = logFilePath;
     }
 
     @Override
-    public void logPrgStateExec() throws CollectionException {
+    public List<PrgState> getPrgList() {
+        return programs;
+    }
+
+    @Override
+    public void setPrgList(List<PrgState> prgList) {
+        this.programs = prgList;
+    }
+
+    @Override
+    public void logPrgStateExec(PrgState state) throws CollectionException {
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
 
+            logFile.println("ID: " + state.getId());
+
             logFile.println("ExeStack:");
-            var stack = program.exeStack();
+            var stack = state.exeStack();
             logFile.println("   " + stack.toString());
 
             logFile.println("SymTable:");
-            var symTable = program.symTable().getContent();
+            var symTable = state.symTable().getContent();
             for (var entry : symTable.entrySet()) {
                 logFile.println("   " + entry.getKey() + " --> " + entry.getValue());
             }
 
             logFile.println("Out:");
-            var outList = program.out().getList();
+            var outList = state.out().getList();
             for (var value : outList) {
                 logFile.println("   " + value);
             }
 
             logFile.println("Heap:");
-            var heap = program.heap().getContent();
+            var heap = state.heap().getContent();
             for (var entry : heap.entrySet()) {
                 logFile.println("   " + entry.getKey() + " --> " + entry.getValue());
             }
 
-            if (program.fileTable() != null) {
+            if (state.fileTable() != null) {
                 logFile.println("FileTable:");
-                var fileTable = program.fileTable().getContent();
+                var fileTable = state.fileTable().getContent();
                 for (var entry : fileTable.entrySet()) {
                     logFile.println("   " + entry.getKey());
                 }

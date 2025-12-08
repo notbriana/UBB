@@ -11,17 +11,17 @@ public class Out<T> implements IOut<T> {
     }
 
     @Override
-    public void add(T v) {
+    public synchronized void add(T v) {
         list.add(v);
     }
 
     @Override
-    public List<T> getList() {
-        return list;
+    public synchronized List<T> getList() {
+        return new ArrayList<>(list);
     }
 
     @Override
-    public String toString() {
-        return getList().toString();
+    public synchronized String toString() {
+        return list.toString();
     }
 }

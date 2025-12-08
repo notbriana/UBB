@@ -26,7 +26,7 @@ public record AssignStmt(String varName, Exp expression) implements IStmt {
         }
 
         state.symTable().update(varName, val);
-        return state;
+        return null;
     }
 
     @Override

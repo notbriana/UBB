@@ -16,7 +16,7 @@ public class Heap<K, V> implements IHeap<Integer, V> {
     }
 
     @Override
-    public int allocate(V value) {
+    public synchronized int allocate(V value) {
         int address = nextFreeLocation;
         heap.put(address, value);
         nextFreeLocation++;
@@ -24,7 +24,7 @@ public class Heap<K, V> implements IHeap<Integer, V> {
     }
 
     @Override
-    public V get(Integer address) throws CollectionException {
+    public synchronized V get(Integer address) throws CollectionException {
         if (!heap.containsKey(address)) {
             throw new CollectionException("Address " + address + " is not defined in the heap");
         }
@@ -32,7 +32,7 @@ public class Heap<K, V> implements IHeap<Integer, V> {
     }
 
     @Override
-    public void update(Integer address, V value) throws CollectionException {
+    public synchronized void update(Integer address, V value) throws CollectionException {
         if (!heap.containsKey(address)) {
             throw new CollectionException("Address " + address + " is not defined in the heap");
         }
@@ -40,22 +40,22 @@ public class Heap<K, V> implements IHeap<Integer, V> {
     }
 
     @Override
-    public boolean isDefined(Integer address) {
+    public synchronized boolean isDefined(Integer address) {
         return heap.containsKey(address);
     }
 
     @Override
-    public Map<Integer, V> getContent() {
-        return heap;
+    public synchronized Map<Integer, V> getContent() {
+        return new HashMap<>(heap);
     }
 
     @Override
-    public void setContent(Map<Integer, V> newContent) {
-        heap = newContent;
+    public synchronized void setContent(Map<Integer, V> newContent) {
+        heap = new HashMap<>(newContent);
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         if (heap.isEmpty()) {
             return "";
         }

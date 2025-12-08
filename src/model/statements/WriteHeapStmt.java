@@ -43,7 +43,7 @@ public record WriteHeapStmt(String varName, Exp expression) implements IStmt {
 
         state.heap().update(address, expValue);
 
-        return state;
+        return null;
     }
 
     @Override

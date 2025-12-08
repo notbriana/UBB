@@ -29,7 +29,7 @@ public record IfStmt(Exp condition, IStmt thenStmt, IStmt elseStmt) implements I
             state.exeStack().push(elseStmt);
         }
 
-        return state;
+        return null;
     }
 
     @Override

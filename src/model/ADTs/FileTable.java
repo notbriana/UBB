@@ -15,36 +15,36 @@ public class FileTable implements IFileTable {
     }
 
     @Override
-    public boolean isDefined(StringValue key) {
+    public synchronized boolean isDefined(StringValue key) {
         return table.containsKey(key);
     }
 
     @Override
-    public void put(StringValue key, BufferedReader value) {
+    public synchronized void put(StringValue key, BufferedReader value) {
         table.put(key, value);
     }
 
     @Override
-    public BufferedReader lookup(StringValue key) throws CollectionException {
+    public synchronized BufferedReader lookup(StringValue key) throws CollectionException {
         if (!table.containsKey(key))
             throw new CollectionException("FileTable: Undefined key " + key);
         return table.get(key);
     }
 
     @Override
-    public void remove(StringValue key) throws CollectionException {
+    public synchronized void remove(StringValue key) throws CollectionException {
         if (!table.containsKey(key))
             throw new CollectionException("FileTable: Cannot remove undefined key " + key);
         table.remove(key);
     }
 
     @Override
-    public Map<StringValue, BufferedReader> getContent() {
-        return table;
+    public synchronized Map<StringValue, BufferedReader> getContent() {
+        return new HashMap<>(table);
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return table.keySet().toString();
     }
 }

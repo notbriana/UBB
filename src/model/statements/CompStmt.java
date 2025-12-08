@@ -14,7 +14,7 @@ public record CompStmt(IStmt first, IStmt second) implements IStmt {
 
         state.exeStack().push(second);
         state.exeStack().push(first);
-        return state;
+        return null;
     }
 
     @Override

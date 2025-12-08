@@ -42,7 +42,7 @@ public record NewStmt(String varName, Exp expression) implements IStmt {
         RefValue newRefValue = new RefValue(newAddress, locationType);
         state.symTable().update(varName, newRefValue);
 
-        return state;
+        return null;
     }
 
     @Override

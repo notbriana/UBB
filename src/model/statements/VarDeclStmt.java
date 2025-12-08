@@ -20,7 +20,7 @@ public record VarDeclStmt(String varName, Type type) implements IStmt {
 
         Value defaultValue = type.defaultValue();
         state.symTable().put(varName, defaultValue);
-        return state;
+        return null;
     }
 
     @Override

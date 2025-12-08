@@ -16,7 +16,7 @@ public record PrintStmt(Exp expression) implements IStmt {
 
         Value val = expression.eval(state.symTable(), state.heap());
         state.out().add(val);
-        return state;
+        return null;
     }
 
     @Override

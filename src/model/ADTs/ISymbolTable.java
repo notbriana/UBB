@@ -17,4 +17,5 @@ public interface ISymbolTable<K, V> {
 
     Map<K, V> getContent();
 
+    ISymbolTable<K, V> clone();
 }

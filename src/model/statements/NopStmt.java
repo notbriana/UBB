@@ -11,7 +11,7 @@ public class NopStmt implements IStmt {
     @Override
     public PrgState execute(PrgState state)
             throws CollectionException, DivisionByZeroException, TypeMismatchException, UndefinedVariableException {
-        return state;
+        return null;
     }
 
     @Override

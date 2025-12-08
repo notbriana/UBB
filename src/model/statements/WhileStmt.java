@@ -29,7 +29,7 @@ public record WhileStmt(Exp expression, IStmt statement) implements IStmt {
             state.exeStack().push(statement);
         }
 
-        return state;
+        return null;
     }
 
     @Override
