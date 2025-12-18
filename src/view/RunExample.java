@@ -17,13 +17,18 @@ public class RunExample extends Command {
     @Override
     public void execute() {
         try {
+            LOGGER.info("EXECUTING: " + getDescription());
+
             controller.allStep();
-            LOGGER.info("Program executed successfully.");
+
+            LOGGER.info("Execution completed successfully!");
+
         } catch (InterruptedException e) {
-            LOGGER.log(Level.SEVERE, "Execution interrupted: {0}", e.getMessage());
+            LOGGER.log(Level.SEVERE, "\nExecution interrupted: {0}", e.getMessage());
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Execution error: {0}", e.getMessage());
+            LOGGER.log(Level.SEVERE, "\nExecution error: {0}", e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -4,9 +4,11 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
+import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.types.BoolType;
+import model.types.Type;
 import model.values.BoolValue;
 import model.values.Value;
 
@@ -30,6 +32,19 @@ public record IfStmt(Exp condition, IStmt thenStmt, IStmt elseStmt) implements I
         }
 
         return null;
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typexp = condition.typecheck(typeEnv);
+        if (typexp.equals(new BoolType())) {
+            thenStmt.typecheck(typeEnv.clone());
+            elseStmt.typecheck(typeEnv.clone());
+            return typeEnv;
+        } else {
+            throw new TypeMismatchException("The condition of IF has not the type bool");
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
 import model.ADTs.*;
 import model.PrgState;
+import model.types.Type;
 
 public record ForkStmt(IStmt stmt) implements IStmt {
 
@@ -41,6 +42,13 @@ public record ForkStmt(IStmt stmt) implements IStmt {
         } catch (Exception e) {
             throw new CollectionException("Error creating fork: " + e.getMessage());
         }
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        stmt.typecheck(typeEnv.clone());
+        return typeEnv;
     }
 
     @Override

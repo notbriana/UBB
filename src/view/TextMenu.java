@@ -2,9 +2,7 @@ package view;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TextMenu {
@@ -16,10 +14,13 @@ public class TextMenu {
     }
 
     private void printMenu() {
-        LOGGER.info("\n=== Toy Language Interpreter Menu ===");
+        LOGGER.info("MENU");
+
         commands.values().forEach(cmd ->
-                LOGGER.log(Level.INFO, "{0} : {1}", new Object[]{cmd.getKey(), cmd.getDescription()})
+                LOGGER.info("  " + cmd.getKey() + ". " + cmd.getDescription())
         );
+
+        LOGGER.info("Enter your choice: ");
     }
 
     public void show() {
@@ -27,39 +28,28 @@ public class TextMenu {
             boolean running = true;
             while (running && scanner.hasNextLine()) {
                 printMenu();
-                LOGGER.info("Select an option: ");
 
-                String input = readUserInput(scanner);
-                running = processUserChoice(input);
+                String input = scanner.nextLine();
+                input = (input == null) ? "" : input.trim();
+
+                Command command = commands.get(input);
+
+                if (command == null) {
+                    LOGGER.warning("\nInvalid option. Please try again.");
+                } else {
+                    try {
+                        command.execute();
+                    } catch (Exception e) {
+                        LOGGER.severe("Error executing command: " + e.getMessage());
+                    }
+
+                    if ("0".equals(input)) {
+                        running = false;
+                    }
+                }
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Unexpected error in TextMenu: {0}", e.getMessage());
-        }
-    }
-
-
-    private String readUserInput(Scanner scanner) {
-        String input = scanner.nextLine();
-        return input == null ? "" : input.trim();
-    }
-
-    private boolean processUserChoice(String input) {
-        Optional<Command> commandOpt = Optional.ofNullable(commands.get(input));
-
-        if (commandOpt.isEmpty()) {
-            LOGGER.warning("Invalid option selected.");
-            return true;
-        }
-
-        executeCommand(commandOpt.get());
-        return !"0".equals(input);
-    }
-
-    private void executeCommand(Command command) {
-        try {
-            command.execute();
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error executing command: {0}", e.getMessage());
+            LOGGER.severe("Unexpected error: " + e.getMessage());
         }
     }
 }

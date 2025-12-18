@@ -99,3 +99,237 @@ Out:
    6
 FileTable:
 ------------------------------------------------------
+ID: 3
+ExeStack:
+   [(int x; (int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [int x, (int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [int x, (int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+   x --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(int y; (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))))]
+SymTable:
+   x --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [int y, (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [int y, (x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(x = 10; (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1))))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [x = 10, (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [x = 10, (y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 0
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(y = x - 4; if (x >= y) then (print(x); print(y)) else (print(0); print(-1)))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [y = x - 4, if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [y = x - 4, if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [if (x >= y) then (print(x); print(y)) else (print(0); print(-1))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(print(x); print(y))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [(print(x); print(y))]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [print(x), print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [print(x), print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+   10
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   [print(y)]
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+   10
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 3
+ExeStack:
+   []
+SymTable:
+   x --> 10
+   y --> 6
+Out:
+   10
+   6
+Heap:
+FileTable:
+------------------------------------------------------

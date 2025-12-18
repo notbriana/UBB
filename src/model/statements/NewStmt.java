@@ -4,6 +4,7 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
+import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.types.RefType;
@@ -43,6 +44,18 @@ public record NewStmt(String varName, Exp expression) implements IStmt {
         state.symTable().update(varName, newRefValue);
 
         return null;
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typevar = typeEnv.lookup(varName);
+        Type typexp = expression.typecheck(typeEnv);
+        if (typevar.equals(new RefType(typexp))) {
+            return typeEnv;
+        } else {
+            throw new TypeMismatchException("NEW stmt: right hand side and left hand side have different types");
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import exceptions.UndefinedVariableException;
 import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
 import model.types.IntType;
+import model.types.Type;
 import model.values.IntValue;
 import model.values.Value;
 
@@ -45,6 +46,23 @@ public record ArithExp(Exp exp1, Exp exp2, String operation) implements Exp {
         };
 
         return new IntValue(result);
+    }
+
+    @Override
+    public Type typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typ1 = exp1.typecheck(typeEnv);
+        Type typ2 = exp2.typecheck(typeEnv);
+
+        if (typ1.equals(new IntType())) {
+            if (typ2.equals(new IntType())) {
+                return new IntType();
+            } else {
+                throw new TypeMismatchException("Second operand is not an integer");
+            }
+        } else {
+            throw new TypeMismatchException("First operand is not an integer");
+        }
     }
 
     @Override

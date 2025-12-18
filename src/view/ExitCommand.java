@@ -11,7 +11,7 @@ public class ExitCommand extends Command {
 
     @Override
     public void execute() {
-        LOGGER.info("Exiting interpreter...");
+        LOGGER.info("\nGoodbye! Exiting interpreter...\n");
         System.exit(0);
     }
 }

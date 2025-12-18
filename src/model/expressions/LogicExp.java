@@ -7,6 +7,7 @@ import exceptions.UndefinedVariableException;
 import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
 import model.types.BoolType;
+import model.types.Type;
 import model.values.BoolValue;
 import model.values.Value;
 
@@ -37,6 +38,23 @@ public record LogicExp(Exp exp1, Exp exp2, String operation) implements Exp {
         };
 
         return new BoolValue(result);
+    }
+
+    @Override
+    public Type typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typ1 = exp1.typecheck(typeEnv);
+        Type typ2 = exp2.typecheck(typeEnv);
+
+        if (typ1.equals(new BoolType())) {
+            if (typ2.equals(new BoolType())) {
+                return new BoolType();
+            } else {
+                throw new TypeMismatchException("Second operand is not a boolean");
+            }
+        } else {
+            throw new TypeMismatchException("First operand is not a boolean");
+        }
     }
 
     @Override

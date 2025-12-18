@@ -11,6 +11,7 @@ import model.PrgState;
 import model.expressions.Exp;
 import model.types.IntType;
 import model.types.StringType;
+import model.types.Type;
 import model.values.IntValue;
 import model.values.StringValue;
 import model.values.Value;
@@ -57,6 +58,22 @@ public record ReadFile(Exp exp, String varName) implements IStmt {
         }
 
         return null;
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typevar = typeEnv.lookup(varName);
+        Type typexp = exp.typecheck(typeEnv);
+
+        if (!typevar.equals(new IntType())) {
+            throw new TypeMismatchException("ReadFile: variable must be of type int");
+        }
+        if (!typexp.equals(new StringType())) {
+            throw new TypeMismatchException("ReadFile: expression must be of type string");
+        }
+
+        return typeEnv;
     }
 
     @Override

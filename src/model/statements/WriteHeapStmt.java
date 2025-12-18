@@ -4,6 +4,7 @@ import exceptions.CollectionException;
 import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
+import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.types.RefType;
@@ -44,6 +45,25 @@ public record WriteHeapStmt(String varName, Exp expression) implements IStmt {
         state.heap().update(address, expValue);
 
         return null;
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typevar = typeEnv.lookup(varName);
+        Type typexp = expression.typecheck(typeEnv);
+
+        if (typevar instanceof RefType) {
+            RefType refType = (RefType) typevar;
+            Type locationType = refType.inner();
+            if (locationType.equals(typexp)) {
+                return typeEnv;
+            } else {
+                throw new TypeMismatchException("WriteHeap: expression type does not match reference inner type");
+            }
+        } else {
+            throw new TypeMismatchException("WriteHeap: variable is not a RefType");
+        }
     }
 
     @Override

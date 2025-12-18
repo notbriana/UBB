@@ -775,3 +775,361 @@ Out:
 FileTable:
    "test.in"
 ------------------------------------------------------
+ID: 1
+ExeStack:
+   [(string varf; (varf = "test.in"; (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [string varf, (varf = "test.in"; (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [string varf, (varf = "test.in"; (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(varf = "test.in"; (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))))]
+SymTable:
+   varf --> ""
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(varf = "test.in"; (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))))]
+SymTable:
+   varf --> ""
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [varf = "test.in", (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))))]
+SymTable:
+   varf --> ""
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [varf = "test.in", (openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))))]
+SymTable:
+   varf --> ""
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(openRFile(varf); (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [openRFile(varf), (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [openRFile(varf), (int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(int varc; (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [int varc, (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [int varc, (readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))]
+SymTable:
+   varf --> "test.in"
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 0
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(readFile(varf, varc); (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf)))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 0
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [readFile(varf, varc), (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 0
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [readFile(varf, varc), (print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 0
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(print(varc); (readFile(varf, varc); (print(varc); closeRFile(varf))))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [print(varc), (readFile(varf, varc); (print(varc); closeRFile(varf)))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [print(varc), (readFile(varf, varc); (print(varc); closeRFile(varf)))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(readFile(varf, varc); (print(varc); closeRFile(varf)))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(readFile(varf, varc); (print(varc); closeRFile(varf)))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [readFile(varf, varc), (print(varc); closeRFile(varf))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [readFile(varf, varc), (print(varc); closeRFile(varf))]
+SymTable:
+   varf --> "test.in"
+   varc --> 5
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(print(varc); closeRFile(varf))]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [(print(varc); closeRFile(varf))]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [print(varc), closeRFile(varf)]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [print(varc), closeRFile(varf)]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [closeRFile(varf)]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+   9
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   [closeRFile(varf)]
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+   9
+Heap:
+FileTable:
+   "test.in"
+------------------------------------------------------
+ID: 1
+ExeStack:
+   []
+SymTable:
+   varf --> "test.in"
+   varc --> 9
+Out:
+   5
+   9
+Heap:
+FileTable:
+------------------------------------------------------

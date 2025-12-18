@@ -1,6 +1,9 @@
 package view;
 
 import controller.Controller;
+import exceptions.CollectionException;
+import exceptions.TypeMismatchException;
+import exceptions.UndefinedVariableException;
 import model.ADTs.*;
 import model.PrgState;
 import model.expressions.*;
@@ -8,6 +11,7 @@ import model.statements.*;
 import model.types.IntType;
 import model.types.RefType;
 import model.types.StringType;
+import model.types.Type;
 import model.values.BoolValue;
 import model.values.IntValue;
 import model.values.StringValue;
@@ -15,15 +19,11 @@ import model.values.Value;
 import repository.IRepository;
 import repository.Repository;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Interpreter {
-    private static final Logger LOGGER = Logger.getLogger(Interpreter.class.getName());
 
     public static void main(String[] args) {
-        Logger.getLogger("").setLevel(Level.INFO);
-        LOGGER.info("Starting Toy Language Interpreter...");
+        System.out.println("TOY LANGUAGE INTERPRETER");
 
         IStmt ex1 = new CompStmt(
                 new VarDeclStmt("varf", new StringType()),
@@ -141,7 +141,6 @@ public class Interpreter {
                         )
                 )
         );
-
 
         IStmt ex5 = new CompStmt(
                 new VarDeclStmt("v", new IntType()),
@@ -286,32 +285,72 @@ public class Interpreter {
                 )
         );
 
+        IStmt exInvalid = new CompStmt(
+                new VarDeclStmt("v", new IntType()),
+                new AssignStmt("v", new ValueExp(new BoolValue(true)))
+        );
 
-        Controller ctr1 = buildController(ex1, "log1.txt");
-        Controller ctr2 = buildController(ex2, "log2.txt");
-        Controller ctr3 = buildController(ex3, "log3.txt");
-        Controller ctr4 = buildController(ex4, "log4.txt");
-        Controller ctr5 = buildController(ex5, "log5.txt");
-        Controller ctr6 = buildController(ex6, "log6.txt");
-        Controller ctr7 = buildController(ex7, "log7.txt");
-        Controller ctr8 = buildController(ex8, "log8.txt");
-        Controller ctr9 = buildController(ex9, "log9.txt");
-        Controller ctr10 = buildController(ex10, "log10.txt");
+        IStmt exValid = new CompStmt(
+                new VarDeclStmt("v", new IntType()),
+                new AssignStmt("v", new ValueExp(new IntValue(7))));
+
+        Controller ctr1 = typeCheckAndBuild(ex1, "log1.txt", "Example 1");
+        Controller ctr2 = typeCheckAndBuild(ex2, "log2.txt", "Example 2");
+        Controller ctr3 = typeCheckAndBuild(ex3, "log3.txt", "Example 3");
+        Controller ctr4 = typeCheckAndBuild(ex4, "log4.txt", "Example 4");
+        Controller ctr5 = typeCheckAndBuild(ex5, "log5.txt", "Example 5");
+        Controller ctr6 = typeCheckAndBuild(ex6, "log6.txt", "Example 6");
+        Controller ctr7 = typeCheckAndBuild(ex7, "log7.txt", "Example 7");
+        Controller ctr8 = typeCheckAndBuild(ex8, "log8.txt", "Example 8");
+        Controller ctr9 = typeCheckAndBuild(ex9, "log9.txt", "Example 9");
+        Controller ctr10 = typeCheckAndBuild(ex10, "log10.txt", "Example 10");
+        Controller ctrInvalid = typeCheckAndBuild(exInvalid, "logInvalid.txt", "Invalid Example");
+
+        System.out.println("\nType checking complete! Building menu...\n");
 
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "Exit interpreter"));
-        menu.addCommand(new RunExample("1", "File Operations Example", ctr1));
-        menu.addCommand(new RunExample("2", "Arithmetic + Relational + If Example", ctr2));
-        menu.addCommand(new RunExample("3", "Nested If + Compound Example", ctr3));
-        menu.addCommand(new RunExample("4", "Heap: new + rH + wH", ctr4));
-        menu.addCommand(new RunExample("5", "While Loop", ctr5));
-        menu.addCommand(new RunExample("6", "Garbage Collector no delete", ctr6));
-        menu.addCommand(new RunExample("7", "Garbage Collection with delete", ctr7));
-        menu.addCommand(new RunExample("8", "Fork Ex lab 8", ctr8));
-        menu.addCommand(new RunExample("9", "Simple Fork Example", ctr9));
-        menu.addCommand(new RunExample("10", "Nested Fork Example", ctr10));
+
+        if (ctr1 != null) menu.addCommand(new RunExample("1", "File Operations Example", ctr1));
+        if (ctr2 != null) menu.addCommand(new RunExample("2", "Arithmetic + Relational + If Example", ctr2));
+        if (ctr3 != null) menu.addCommand(new RunExample("3", "Nested If + Compound Example", ctr3));
+        if (ctr4 != null) menu.addCommand(new RunExample("4", "Heap: new + rH + wH", ctr4));
+        if (ctr5 != null) menu.addCommand(new RunExample("5", "While Loop", ctr5));
+        if (ctr6 != null) menu.addCommand(new RunExample("6", "Garbage Collector no delete", ctr6));
+        if (ctr7 != null) menu.addCommand(new RunExample("7", "Garbage Collection with delete", ctr7));
+        if (ctr8 != null) menu.addCommand(new RunExample("8", "Fork Ex lab 8", ctr8));
+        if (ctr9 != null) menu.addCommand(new RunExample("9", "Simple Fork Example", ctr9));
+        if (ctr10 != null) menu.addCommand(new RunExample("10", "Nested Fork Example", ctr10));
+        if (ctrInvalid != null) menu.addCommand(new RunExample("11", "Type Error Example", ctrInvalid));
+
 
         menu.show();
+    }
+
+    private static Controller typeCheckAndBuild(IStmt stmt, String logFile, String exampleName) {
+        try {
+            System.out.print("Type checking " + exampleName + "\n");
+            ISymbolTable<String, Type> typeEnv = new SymbolTable<>();
+            stmt.typecheck(typeEnv);
+            System.out.println("PASSED");
+
+            return buildController(stmt, logFile);
+
+        } catch (TypeMismatchException e) {
+            System.out.println("FAILED");
+            System.err.println("TYPE ERROR: " + e.getMessage());
+            return null;
+
+        } catch (UndefinedVariableException e) {
+            System.out.println("FAILED");
+            System.err.println("UNDEFINED VARIABLE: " + e.getMessage());
+            return null;
+
+        } catch (CollectionException e) {
+            System.out.println("FAILED");
+            System.err.println("ERROR: " + e.getMessage());
+            return null;
+        }
     }
 
     private static Controller buildController(IStmt stmt, String logFile) {

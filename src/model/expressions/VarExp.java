@@ -4,6 +4,7 @@ import exceptions.CollectionException;
 import exceptions.UndefinedVariableException;
 import model.ADTs.IHeap;
 import model.ADTs.ISymbolTable;
+import model.types.Type;
 import model.values.Value;
 
 public record VarExp(String id) implements Exp {
@@ -15,8 +16,12 @@ public record VarExp(String id) implements Exp {
     }
 
     @Override
+    public Type typecheck(ISymbolTable<String, Type> typeEnv) throws UndefinedVariableException, CollectionException {
+        return typeEnv.lookup(id);
+    }
+
+    @Override
     public String toString() {
         return id;
     }
 }
-

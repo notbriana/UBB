@@ -5,9 +5,11 @@ import exceptions.DivisionByZeroException;
 import exceptions.TypeMismatchException;
 import exceptions.UndefinedVariableException;
 import model.ADTs.IFileTable;
+import model.ADTs.ISymbolTable;
 import model.PrgState;
 import model.expressions.Exp;
 import model.types.StringType;
+import model.types.Type;
 import model.values.StringValue;
 import model.values.Value;
 
@@ -39,6 +41,17 @@ public record CloseRFile(Exp exp) implements IStmt {
 
         fileTable.remove(strVal);
         return null;
+    }
+
+    @Override
+    public ISymbolTable<String, Type> typecheck(ISymbolTable<String, Type> typeEnv)
+            throws TypeMismatchException, UndefinedVariableException, CollectionException {
+        Type typexp = exp.typecheck(typeEnv);
+        if (typexp.equals(new StringType())) {
+            return typeEnv;
+        } else {
+            throw new TypeMismatchException("CloseRFile: expression must be of type string");
+        }
     }
 
     @Override
