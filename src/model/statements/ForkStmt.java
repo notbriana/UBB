@@ -26,7 +26,6 @@ public record ForkStmt(IStmt stmt) implements IStmt {
             IHeap<Integer, model.values.Value> sharedHeap = state.heap();
             IFileTable sharedFileTable = state.fileTable();
             IOut<model.values.Value> sharedOut = state.out();
-
             PrgState newState;
             newState = new PrgState(
                     newExeStack,

@@ -285,3 +285,11 @@ Heap:
    3 --> 40
 FileTable:
 ------------------------------------------------------
+ID: 7
+ExeStack:
+   [(Ref(int) v; (new(v, 20); (Ref(int) a; (new(a, 30); (new(v, 40); (print(rH(v)); print(rH(a))))))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------

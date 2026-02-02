@@ -58,6 +58,7 @@ public class Repository implements IRepository {
                 logFile.println("   " + entry.getKey() + " --> " + entry.getValue());
             }
 
+
             if (state.fileTable() != null) {
                 logFile.println("FileTable:");
                 var fileTable = state.fileTable().getContent();
@@ -65,6 +66,7 @@ public class Repository implements IRepository {
                     logFile.println("   " + entry.getKey());
                 }
             }
+
 
             logFile.println("------------------------------------------------------");
 

@@ -3,6 +3,7 @@ package model.ADTs;
 import exceptions.CollectionException;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Objects;
 
@@ -37,4 +38,12 @@ public class ExeStack<T> implements IExeStack<T> {
     public String toString() {
         return stack.toString();
     }
+
+    public ArrayList<T> getStackReversed() {
+        ArrayList<T> reversed = new ArrayList<>();
+        stack.descendingIterator().forEachRemaining(reversed::add);
+        return reversed;
+    }
+
+
 }

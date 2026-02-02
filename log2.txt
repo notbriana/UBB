@@ -164,3 +164,194 @@ Out:
    false
 FileTable:
 ------------------------------------------------------
+ID: 2
+ExeStack:
+   [(int a; (int b; (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false)))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [int a, (int b; (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [int a, (int b; (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(int b; (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false))))]
+SymTable:
+   a --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(int b; (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false))))]
+SymTable:
+   a --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [int b, (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false)))]
+SymTable:
+   a --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [int b, (a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false)))]
+SymTable:
+   a --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false)))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(a = 2 + 3 * 5; (b = a + 1; if (b < a) then print(true) else print(false)))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [a = 2 + 3 * 5, (b = a + 1; if (b < a) then print(true) else print(false))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [a = 2 + 3 * 5, (b = a + 1; if (b < a) then print(true) else print(false))]
+SymTable:
+   a --> 0
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(b = a + 1; if (b < a) then print(true) else print(false))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [(b = a + 1; if (b < a) then print(true) else print(false))]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [b = a + 1, if (b < a) then print(true) else print(false)]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [b = a + 1, if (b < a) then print(true) else print(false)]
+SymTable:
+   a --> 17
+   b --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [if (b < a) then print(true) else print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [if (b < a) then print(true) else print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   [print(false)]
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 2
+ExeStack:
+   []
+SymTable:
+   a --> 17
+   b --> 18
+Out:
+   false
+Heap:
+FileTable:
+------------------------------------------------------
