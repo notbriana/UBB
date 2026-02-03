@@ -1,0 +1,10 @@
+1,Theodor Mihail,I will make sure to implement a layered architecture solution
+2,Ana Blandiana,The program is layered
+3,Corina Escu,I did not understand layered architecture
+4,Lara Jula,My proposed solution does not include layers
+5,Doru Flaore,I will implement a layered architecture
+6,Denisa Emrich,I will implement a layered architecture
+7,Adela Haban,I did not implement a layered architecture
+8,Mihai Emil,My solution is layered
+9,Mihai Eminescu,I don't understand layered architecture
+10,Titulescu Noe,I will try to implement a layered architecture
