@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.MainWindowController" stylesheets="@pastel-goth.css">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="10">
+        <Label text="Number of Program States:"/>
+        <TextField fx:id="prgCountTextField" editable="false"/>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox>
+            <Label text="Heap Table"/>
+            <TableView fx:id="heapTableView" prefHeight="150" prefWidth="250">
+                <columns>
+                    <TableColumn text="Address" fx:id="heapAddressColumn" prefWidth="80"/>
+                    <TableColumn text="Value" fx:id="heapValueColumn" prefWidth="170"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox>
+            <Label text="Output"/>
+            <ListView fx:id="outListView" prefHeight="150" prefWidth="200"/>
+        </VBox>
+
+        <VBox>
+            <Label text="File Table"/>
+            <ListView fx:id="fileTableListView" prefHeight="150" prefWidth="200"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox>
+            <Label text="Program State IDs"/>
+            <ListView fx:id="prgStateIdListView" prefHeight="150" prefWidth="100"/>
+        </VBox>
+
+        <VBox>
+            <Label text="Symbol Table (Top Level)"/>
+            <TableView fx:id="symTableView" prefHeight="150" prefWidth="250">
+                <columns>
+                    <TableColumn text="Variable Name" fx:id="symVarColumn" prefWidth="120"/>
+                    <TableColumn text="Value" fx:id="symValueColumn" prefWidth="130"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox>
+            <Label text="Execution Stack"/>
+            <ListView fx:id="exeStackListView" prefHeight="150" prefWidth="300"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20">
+
+        <VBox>
+            <Label text="Procedure Table"/>
+            <TableView fx:id="procTableView" prefHeight="150" prefWidth="400">
+                <columns>
+                    <TableColumn text="Name" fx:id="procNameColumn" prefWidth="100"/>
+                    <TableColumn text="Parameters" fx:id="procParamsColumn" prefWidth="150"/>
+                    <TableColumn text="Body" fx:id="procBodyColumn" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox>
+            <Label text="SymTable Stack Info"/>
+            <ListView fx:id="symTableStackListView" prefHeight="100" prefWidth="300"/>
+        </VBox>
+    </HBox>
+
+    <Button fx:id="runOneStepButton" text="Run One Step" onAction="#runOneStep"/>
+</VBox>
+
