@@ -1,0 +1,10 @@
+1,Theodor Mihail,24
+2,Ana Blandiana,55
+3,Corina Escu,24
+4,Lara Jula,67
+5,Doru Flaore,78
+6,Denisa Emrich,58
+7,Adela Haban,48
+8,Mihai Emil,30
+9,Mihai Eminescu,24
+10,Titulescu Noe,33
