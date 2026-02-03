@@ -1,0 +1,11 @@
+1,Theodor Mihail,10,9
+2,Ana Blandiana,15,7
+3,Corina Escu,1,10
+4,Lara Jula,20,8
+5,Doru Flaore,22,8
+6,Denisa Emrich,2,10
+7,Adela Haban,50,9
+8,Mihai Emil,2,5
+9,Mihai Eminescu,3,7
+10,Titulescu Noe,10,3
+11,eeeeeeeeeeeeeeeee,12,8
