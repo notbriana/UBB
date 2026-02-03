@@ -1,0 +1,382 @@
+ID: 11
+ExeStack:
+   [(int v1; (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v1, (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v1, (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v2, (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v2, (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v1 = 2, (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v1 = 2, (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v2 = 3, if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v2 = 3, if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [print(MUL(v1,v2))]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [print(MUL(v1,v2))]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   []
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+   1
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(int v1; (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v1, (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v1, (int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(int v2; (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v2, (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [int v2, (v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v1 = 2; (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1)))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v1 = 2, (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v1 = 2, (v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 0
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [(v2 = 3; if (v1 != 0) then print(MUL(v1,v2)) else print(v1))]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v2 = 3, if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [v2 = 3, if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 0
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [if (v1 != 0) then print(MUL(v1,v2)) else print(v1)]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [print(MUL(v1,v2))]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   [print(MUL(v1,v2))]
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+Heap:
+FileTable:
+------------------------------------------------------
+ID: 11
+ExeStack:
+   []
+SymTable:
+   v2 --> 3
+   v1 --> 2
+Out:
+   1
+Heap:
+FileTable:
+------------------------------------------------------

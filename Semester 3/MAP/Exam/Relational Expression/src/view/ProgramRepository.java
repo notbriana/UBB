@@ -292,6 +292,26 @@ public class ProgramRepository {
                 )
         );
 
+        IStmt program = new CompStmt(
+                new VarDeclStmt("v1", new IntType()),
+                new CompStmt(
+                        new VarDeclStmt("v2", new IntType()),
+
+                        new CompStmt(
+                                new AssignStmt("v1", new ValueExp(new IntValue(2))),
+                                new CompStmt(
+                                        new AssignStmt("v2", new ValueExp(new IntValue(3))),
+
+                                        new IfStmt(
+                                                new RelExp(new VarExp("v1"), new ValueExp(new IntValue(0)), "!="),
+                                                new PrintStmt(new MULExp(new VarExp("v1"), new VarExp("v2"))),
+                                                new PrintStmt(new VarExp("v1"))
+                                        )
+                                )
+                        )
+                )
+        );
+
 
         IStmt ex12 = new CompStmt(
                 new VarDeclStmt("v", new IntType()),
@@ -308,6 +328,7 @@ public class ProgramRepository {
         addController(ex8, "Example 8: Fork Ex lab 8", "log8.txt");
         addController(ex9, "Example 9: Simple Fork Example", "log9.txt");
         addController(ex10, "Example 10: Nested Fork Example", "log10.txt");
+        addController(program, "Example", "logRel.txt");
 
         addController(ex12, "Example 11: Type Error Example", "logInvalid.txt");
 
