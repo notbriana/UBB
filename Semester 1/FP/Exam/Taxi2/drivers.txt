@@ -1,0 +1,10 @@
+John Doe,10,20
+Jane Smith,15,25
+Michael Johnson,30,30
+Emily Davis,40,45
+Robert Brown,50,50
+Sophia Wilson,60,65
+William Garcia,70,75
+Olivia Martinez,80,85
+James Rodriguez,90,95
+Isabella Hernandez,100,105

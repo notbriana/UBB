@@ -1,0 +1,10 @@
+1,123 Main St,10,20
+2,456 Elm St,15,25
+3,789 Oak St,30,30
+4,101 Pine St,40,45
+5,202 Maple St,50,50
+6,303 Birch St,60,65
+7,404 Cedar St,70,75
+8,505 Willow St,80,85
+9,606 Cherry St,90,95
+10,707 Chestnut St,89,90
