@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.MainWindowController" stylesheets="@pastel-goth.css">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="10">
+        <Label text="Number of Program States:"/>
+        <TextField fx:id="prgCountTextField" editable="false"/>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox>
+            <Label text="Heap Table"/>
+            <TableView fx:id="heapTableView" prefHeight="150">
+                <columns>
+                    <TableColumn text="Address" fx:id="heapAddressColumn"/>
+                    <TableColumn text="Value" fx:id="heapValueColumn"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox>
+            <Label text="Output"/>
+            <ListView fx:id="outListView" prefHeight="150"/>
+        </VBox>
+
+        <VBox>
+            <Label text="File Table"/>
+            <ListView fx:id="fileTableListView" prefHeight="150"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox>
+            <Label text="Program State IDs"/>
+            <ListView fx:id="prgStateIdListView" prefHeight="150"/>
+        </VBox>
+
+        <VBox>
+            <Label text="Symbol Table"/>
+            <TableView fx:id="symTableView" prefHeight="150">
+                <columns>
+                    <TableColumn text="Variable Name" fx:id="symVarColumn"/>
+                    <TableColumn text="Value" fx:id="symValueColumn"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox>
+            <Label text="Execution Stack"/>
+            <ListView fx:id="exeStackListView" prefHeight="150"/>
+        </VBox>
+
+    </HBox>
+
+
+    <Button fx:id="runOneStepButton" text="Run One Step" onAction="#runOneStep"/>
+</VBox>
