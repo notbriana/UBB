@@ -1,0 +1,15 @@
+Fiat | Bravo | 2007 | red
+Fiat | Idea | 2003 | black
+Audi | A5 | 2007 | blue
+Mercedes-Benz | SUV | 2013 | blue
+Ford | Fiesta | 2015 | green
+BMW | X5 | 2018 | white
+Toyota | Camry | 2020 | gray
+Honda | Civic | 2019 | red
+Volkswagen | Golf | 2016 | yellow
+Chevrolet | Malibu | 2017 | black
+Nissan | Altima | 2021 | blue
+Hyundai | Elantra | 2018 | green
+Kia | Optima | 2019 | red
+Mazda | CX-5 | 2020 | white
+Subaru | Outback | 2021 | gray

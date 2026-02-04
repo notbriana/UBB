@@ -1,0 +1,24 @@
+Type: Neonantal Unit
+Name: 1
+Number of doctors: 11
+Average grade: 12.000000
+Number of newborns: 14
+Number of mothers: 13
+
+Type: Neonantal Unit
+Name: 1
+Number of doctors: 21
+Average grade: 22.000000
+Number of newborns: 24
+Number of mothers: 23
+
+Type: Surgery
+Name: 1
+Number of doctors: 31
+Number of patients: 32
+
+Type: Surgery
+Name: 1
+Number of doctors: 41
+Number of patients: 42
+
