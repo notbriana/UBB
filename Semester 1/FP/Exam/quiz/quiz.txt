@@ -1,0 +1,2 @@
+3; Sample question 3; Choice A3|Choice B3|Choice C3;a;hard
+2; Sample question 2; Choice A2|Choice B2|Choice C2;b;medium
