@@ -1,0 +1,1881 @@
+P1
+
+1.
+a. Write a predicate to determine the lowest common multiple of a list formed from integer numbers.
+b. Write a predicate to add a value v after 1-st, 2-nd, 4-th, 8-th, … element in a list.
+
+
+gcd(A, 0, A).
+
+gcd(A, B, G):-
+    B > 0,
+    R is A mod B,
+    gcd(B, R, G).
+
+lcm(A, B, L):-
+    gcd(A, B, G),
+    L is A * B // G.
+
+lcm_list([X], X).
+
+lcm_list([H|T], L):-
+    lcm_list(T, L1),
+    lcm(H, L1, L).
+
+
+add_after(L, X, R):-
+    add_after(L, X, 1, 1, R).
+
+add_after([], _, _, _, []).
+
+add_after([H|T], X, PosTarget, PosActual, [H, X|R]):-
+    PosTarget =:= PosActual,
+    PosTarget1 is PosTarget * 2,
+    PosActual1 is PosActual + 1,
+    add_after(T, X, PosTarget1, PosActual1, R).
+    
+
+add_after([H|T], X, PosTarget, PosActual, [H|R]):-
+    PosTarget =\= PosActual,
+    PosActual1 is PosActual + 1,
+    add_after(T, X, PosTarget, PosActual1, R).
+
+
+
+
+2.
+a. Write a predicate to remove all occurrences of a certain atom from a list.
+b. Define a predicate to produce a list of pairs (atom n) from an initial list of atoms. In this initial list atom has 
+n occurrences.
+Eg.: numberatom([1, 2, 1, 2, 1, 3, 1], X) => X = [[1, 4], [2, 2], [3, 1]].
+
+
+remove_occurence([], _, []).
+
+remove_occurence([X|T], X, R):-
+    remove_occurence(T, X, R).
+
+remove_occurence([H|T], X, [H | R]):-
+    remove_occurence(T, X, R).
+
+count_occurences(L, X, R):-
+    count_occurences(L, X, 0, R).
+
+count_occurences([], _, Acc, Acc).
+
+count_occurences([X|T], X, Acc, R):-
+    Acc1 is Acc + 1,
+    count_occurences(T, X, Acc1, R).
+
+count_occurences([_|T], X, Acc, R):-
+    count_occurences(T, X, Acc, R).
+
+create_list([], []).
+
+create_list([H|T], [[H, G]|R]):-
+    count_occurences([H|T], H, G),
+    remove_occurence(T, H, T1),
+    create_list(T1, R).
+    
+
+
+3.
+a. Define a predicate to remove from a list all repetitive elements. 
+Eg.: l=[1,2,1,4,1,3,4] => l=[2,3])
+b. Remove all occurrence of a maximum value from a list on integer numbers.
+
+
+
+
+is_member([X|_], X).
+is_member([_|T], X) :-
+    is_member(T, X).
+
+remove_element([], _, []).
+
+remove_element([X|T], X, R) :-
+    remove_element(T, X, R).
+
+remove_element([H|T], X, [H|R]) :-
+    H \= X,
+    remove_element(T, X, R).
+
+remove_list([], []).
+
+remove_list([H|T], [H|R]):-
+    \+is_member(T, H),
+    remove_list(T, R).
+
+remove_list([H|T], R):-
+    is_member(T, H),
+    remove_element(T, H, R1),
+    remove_list(R1, R).
+
+
+max2(A,B,A):-
+    A >= B.
+max2(A,B,B):-
+    A < B.
+
+max_list([X], X).
+
+max_list([H|T], M):-
+    max_list(T, M1),
+    max2(H, M1, M).
+
+helper(L, R):-
+    max_list(L, M),
+    remove_element(L, M, R).
+
+4.
+a. Write a predicate to determine the difference of two sets.
+b. Write a predicate to add value 1 after every even element from a list.
+
+
+
+is_member([X|_], X).
+is_member([_|T], X):-
+    is_member(T, X).
+
+
+difference_set([], _, []).
+
+difference_set([H|T], L, R):-
+    is_member(L, H),
+    difference_set(T, L, R).
+
+difference_set([H|T], L, [H|R]):-
+    \+is_member(L, H),
+    difference_set(T, L, R).
+
+add_one([], []).
+
+add_one([H|T], [H, 1| R]):-
+    0 is H mod 2,
+    add_one(T, R).
+
+add_one([H|T], [H | R]):-
+    1 is H mod 2,
+    add_one(T, R).
+
+5.
+a. Write a predicate to compute the union of two sets.
+b. Write a predicate to determine the set of all the pairs of elements in a list. 
+Eg.: L = [a b c d] => [[a b] [a c] [a d] [b c] [b d] [c d]].
+
+append([], L, L).
+
+append([H|T], L, [H|R]):-
+    append(T, L, R).
+
+is_member([X|_], X).
+is_member([_|T], X):-
+    is_member(T, X).
+
+
+union_set([], L, L).
+
+union_set([H|T], L, R):-
+    is_member(L, H),
+    union_set(T, L, R).
+
+union_set([H|T], L, [H|R]):-
+    \+is_member(L, H),
+    union_set(T, L, R).
+
+pair_with([], _, []).
+
+pair_with([H|T], X, [[X, H] | R]):-
+    pair_with(T, X, R).
+
+all_pairs([], []).
+
+all_pairs([_], []).
+
+all_pairs([H|T], R):-
+    pair_with(T, H, R1),
+    all_pairs(T, R2),
+    append(R1, R2, R).
+
+6.
+a. Write a predicate to test if a list is a set.
+b. Write a predicate to remove the first three occurrences of an element in a list. If the element occurs less 
+than three times, all occurrences will be removed.
+
+
+is_member([X|_], X).
+
+is_member([_|T], X):-
+    is_member(T, X).
+
+is_set([]).
+is_set([H|T]):-
+    \+is_member(T, H),
+    is_set(T).
+
+remove_three(L, X, R):-
+    remove_three(L, X, 3, R).
+
+remove_three([], _, _, []).
+
+remove_three([H|T], X, C, [H|R]):-
+    H \= X,
+   remove_three(T, X, C, R).
+
+remove_three([X|T], X, C, [X|R]):-
+    C == 0,
+   remove_three(T, X, C, R).
+
+remove_three([X|T], X, C, R):-
+  	C > 0,
+   	C1 is C - 1,
+    remove_three(T, X, C1, R).
+
+
+7.
+a. Write a predicate to compute the intersection of two sets.
+b. Write a predicate to create a list (m, ..., n) of all integer numbers from the interval [m, n].
+
+
+is_member([X|_], X).
+is_member([_|T], X):-
+    is_member(T, X).
+
+intersection_set([],_,[]).
+
+intersection_set([H|T], L, [H|R]):-
+    is_member(L, H),
+    intersection_set(T, L, R).
+
+intersection_set([H|T], L, R):-
+    \+is_member(L, H),
+    intersection_set(T, L, R).
+
+
+range(M, N, []):-
+    M > N.
+
+range(M, N, [M|R]):-
+    M =< N,
+    M1 is M + 1,
+    range(M1, N, R).
+
+
+8.
+a. Write a predicate to determine if a list has even numbers of elements without counting the elements from 
+the list.
+b. Write a predicate to delete first occurrence of the minimum number from a list.
+
+even_number([]).
+
+even_number([_,_|T]):-
+    even_number(T).
+
+min2(A, B, A):-
+    A =< B.
+
+min2(A, B, B):-
+    B < A.
+
+min_list([X], X).
+
+min_list([H|T], M):-
+    min_list(T, M1),
+    min2(H, M1, M).
+
+remove_first([], _, []).
+
+remove_first([X|T], X, T).
+
+remove_first([H|T], X, [H|R]) :-
+    H \= X,
+    remove_first(T, X, R).
+
+remove_first_min(L, R):-
+    min_list(L, M),
+    remove_first(L, M, R).
+
+
+9.
+a. Insert an element on the position n in a list.
+b. Define a predicate to determine the greatest common divisor of all numbers from a list.
+
+
+
+insert_n(L, X, N, R) :-
+    insert_n(L, X, 1, N, R).
+
+insert_n([], _, _, _, []).
+
+insert_n([H|T], X, P, N, [H|R]) :-
+    P \= N,
+    P1 is P + 1,
+    insert_n(T, X, P1, N, R).
+
+insert_n([H|T], X, P, N, [X, H|T]) :-
+    P == N.
+
+gcd(A, 0, A).
+
+gcd(A, B, G):-
+    B > 0,
+    M is A mod B,
+    gcd(B, M, G).
+
+gcd_list([X], X).
+
+gcd_list([H|T], G):-
+    gcd_list(T, G1),
+    gcd(H, G1, G).
+
+10.
+a. Define a predicate to test if a list of an integer elements has a "valley" aspect (a set has a "valley" aspect if 
+elements decreases up to a certain point, and then increases. 
+eg: 10 8 6 9 11 13 – has a “valley” aspect
+b. Calculate the alternate sum of list’s elements (l1 - l2 + l3 ...)
+
+valley([A,B|T]) :-
+    A > B,
+    valley_down([B|T]).
+
+valley_down([X,Y|T]) :-
+    X > Y,
+    valley_down([Y|T]).
+
+valley_down([X,Y|T]) :-
+    X < Y,
+    valley_up([X,Y|T]).
+
+valley_up([_]).
+
+valley_up([X,Y|T]) :-
+    X < Y,
+    valley_up([Y|T]).
+
+sum_alt(L, S):-
+    sum_alt(L, 1, 0, S).
+
+sum_alt([], _, Acc, Acc).
+
+sum_alt([H|T], Sign, Acc, S):-
+    Acc1 is Acc + Sign * H,
+    Sign1 is -Sign,
+    sum_alt(T, Sign1, Acc1, S).
+
+
+
+11.
+a. Write a predicate to substitute an element from a list with another element in the list.
+b. Write a predicate to create the sublist (lm, …, ln) from the list (l1,…, lk).
+
+
+
+replace([], _, _, []).
+
+replace([H|T], N, O, [H|R]):-
+    H \= O,
+    replace(T, N, O, R).
+
+replace([H|T], N, O, [N|R]):-
+    H == O,
+    replace(T, N, O, R).
+
+sublist(L, M, N, R):-
+    sublist(L, 1, M, N, R).
+
+sublist([], _, _, _, []).
+
+sublist(_, P, _, N, []) :-
+    P > N.
+
+sublist([_|T], P, M, N, R):-
+    P < M,
+    P1 is P + 1,
+    sublist(T, P1, M, N, R).
+
+sublist([H|T], P, M, N, [H | R]):-
+    P >= M,
+    P =< N,
+    P1 is P + 1,
+    sublist(T, P1, M, N, R).
+
+
+12. 
+a. Write a predicate to substitute in a list a value with all the elements of another list.
+b. Remove the n-th element of a list.
+
+
+remove_n(L, N, R):-
+    remove_n(L, N, 1, R).
+
+remove_n([], _, _, []).
+
+remove_n([H|T], N, P, [H | R]):-
+    N \= P,
+    P1 is P + 1,
+    remove_n(T, N, P1, R).
+
+remove_n([_|T], N, P, R):-
+    N == P,
+    P1 is P + 1,
+    remove_n(T, N, P1, R).
+
+
+append([], L, L).
+
+append([H|T], L, [H|R]):-
+    append(T,L, R).
+
+replace([], _, _, []).
+
+replace([O|T], O, N, R):-
+    replace(T, O, N, R1),
+    append(N, R1, R).
+
+
+replace([H|T], O, N, [H|R]):-
+    H \= O,
+    replace(T, O, N, R).
+
+13.
+a. Transform a list in a set, in the order of the last occurrences of elements. Eg.: [1,2,3,1,2] is transformed in 
+[3,1,2].
+b. Define a predicate to determine the greatest common divisor of all numbers in a list.
+
+is_member([X|_], X).
+is_member([_|T], X) :-
+    is_member(T, X).
+
+list_to_set_last([], []).
+
+list_to_set_last([H|T], [H|R]) :-
+    \+ is_member(T, H),
+    list_to_set_last(T, R).
+
+list_to_set_last([H|T], R) :-
+    is_member(T, H),
+    list_to_set_last(T, R).
+
+
+
+gcd(A, 0, A).
+
+gcd(A, B, G):-
+    B > 0,
+    M is A mod B,
+    gcd(B, M, G).
+
+gcd_list([X], X).
+
+gcd_list([H|T], G):-
+    gcd_list(T, G1),
+    gcd(H, G1, G).
+
+
+14.
+a. Write a predicate to test equality of two sets without using the set difference.
+b. Write a predicate to select the n-th element of a given list.
+
+
+is_member([X|_], X).
+
+is_member([_|T], X):-
+    is_member(T, X).
+
+all_in([], _).
+
+all_in([H|T], L):-
+    is_member(L, H),
+    all_in(T, L).
+
+equal(L1, L2):-
+    all_in(L1, L2),
+    all_in(L2, L1).
+
+
+nth_element([H|_], 1, H).
+
+nth_element([_|T], N, X) :-
+    N > 1,
+    N1 is N - 1,
+    nth_element(T, N1, X).
+
+
+15.
+a. Write a predicate to transform a list in a set, considering the first occurrence. 
+Eg: [1,2,3,1,2] is transform in [1,2,3].
+b. Write a predicate to decompose a list in a list respecting the following: [list of even numbers list of odd 
+numbers] and also return the number of even numbers and the numbers of odd numbers
+
+
+decompose([], [], [], 0, 0).
+
+decompose([H|T], [H|E], O, NE, NO) :-
+    0 is H mod 2,
+    decompose(T, E, O, NE1, NO),
+    NE is NE1 + 1.
+
+decompose([H|T], E, [H|O], NE, NO) :-
+    1 is H mod 2,
+    decompose(T, E, O, NE, NO1),
+    NO is NO1 + 1.
+
+remove_all(_, [], []).
+
+remove_all(X, [X|T], R) :-
+    remove_all(X, T, R).
+
+remove_all(X, [H|T], [H|R]) :-
+    X \= H,
+    remove_all(X, T, R).
+
+
+list_to_set_first([], []).
+
+list_to_set_first([H|T], [H|R]) :-
+    remove_all(H, T, T1),
+    list_to_set_first(T1, R).
+
+
+
+L1
+
+1.
+a) Write a function to return the n-th element of a list, or NIL if such an element does not exist.
+b) Write a function to check whether an atom E is a member of a list which is not necessarily linear.
+c) Write a function to determine the list of all sublists of a given list, on any level. 
+ A sublist is either the list itself, or any element that is a list, at any level. Example: 
+ (1 2 (3 (4 5) (6 7)) 8 (9 10)) => 5 sublists :
+ ( (1 2 (3 (4 5) (6 7)) 8 (9 10)) (3 (4 5) (6 7)) (4 5) (6 7) (9 10) )
+d) Write a function to transform a linear list into a set.
+
+
+(defun nth-element (l n)
+  (cond
+    ((null l) nil)
+    ((= n 1) (car l))
+    (t (nth-element (cdr l) (- n 1)))))
+
+
+(defun member-deep (e l)
+  (cond
+    ((null l) nil)
+    ((atom (car l))
+     (cond
+       ((eql (car l) e) t)
+       (t (member-deep e (cdr l)))))
+    (t
+     (cond
+       ((member-deep e (car l)) t)
+       (t (member-deep e (cdr l)))))))
+
+
+
+(defun append-lists (a b)
+  (cond
+    ((null a) b)
+    (t (cons (car a) (append-lists (cdr a) b)))))
+
+(defun all-sublists (l)
+  (cond
+    ((atom l) nil)
+    (t (append-lists
+         (list l) 
+         (all-sublists-helper l)))))
+
+(defun all-sublists-helper (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l)) (all-sublists-helper (cdr l)))
+    (t (append-lists (all-sublists (car l))
+                     (all-sublists-helper (cdr l))))))
+
+
+(defun remove-if-member (x l)
+  (cond
+    ((null l) nil)
+    ((eql (car l) x) (remove-if-member x (cdr l)))
+    (t (cons (car l) (remove-if-member x (cdr l))))))
+
+(defun list-to-set-last (l)
+  (cond
+    ((null l) nil)
+    (t (append-lists (list (car l))
+                     (list-to-set-last (remove-if-member (car l) (cdr l)))))))
+
+
+
+2.
+a) Write a function to return the product of two vectors.
+https://en.wikipedia.org/wiki/Dot_product
+b) Write a function to return the depth of a list. Example: the depth of a linear list is 1.
+c) Write a function to sort a linear list without keeping the double values.
+d) Write a function to return the intersection of two sets.
+
+(defun product-vectors (v1 v2)
+(cond 
+((or (null v1) (null v2)) 0)
+(t (+ (* (car v1) (car v2)) (product-vectors (cdr v1) (cdr v2))))))
+
+(print (product-vectors '(1 2 3) '(4 5 6)))
+
+
+(defun max2 (a b)
+  (if (> a b) a b))
+
+(defun depth-list (l)
+  (if (atom l)
+      0 
+      (+ 1 (depth-list-helper l))))
+
+(defun depth-list-helper (l)
+  (if (null l)
+      0
+      (max2 (depth-list (car l))
+           (depth-list-helper (cdr l)))))
+
+
+(defun remove-all (x l)
+  (cond
+    ((null l) nil)                           ; empty list
+    ((eql x (car l)) (remove-all x (cdr l))) ; head = x → skip it
+    (t (cons (car l) (remove-all x (cdr l)))))) ; otherwise keep head
+
+(defun min-list (l)
+  (cond
+    ((null (cdr l)) (car l)) ; only one element → it's the minimum
+    (t (let ((m (min-list (cdr l))))
+         (if (< (car l) m)
+             (car l)
+             m)))))
+
+(defun sort-set (l)
+  (cond
+    ((null l) nil) ; empty list → return empty
+    (t (let ((m (min-list l)))
+         (cons m (sort-set (remove-all m l)))))))
+
+(print (sort-set '(3 1 4 1 5 3 2)))
+
+
+(defun member-list (x l)
+(cond
+((null l) nil)
+((eql x (car l)) t)
+(t (member-list x (cdr l)))))
+
+(defun intersect (l1 l2)
+(cond 
+((null l1) nil)
+((member-list (car l1) l2) (cons (car l1) (intersect (cdr l1) l2)))
+(t (intersect (cdr l1) l2))))
+
+(print (intersect '(1 2 3 4) '(5 6)))
+
+
+3.
+a) Write a function that inserts in a linear list a given atom A after the 2nd, 4th, 6th, ... element.
+b) Write a function to get from a given list the list of all atoms, on any 
+ level, but reverse order. Example:
+ (((A B) C) (D E)) ==> (E D C B A)
+c) Write a function that returns the greatest common divisor of all numbers in a nonlinear list.
+d) Write a function that determines the number of occurrences of a given atom in a nonlinear list.
+
+(defun insert-even-pos (l a &optional (pos 1))
+(cond
+((null l) nil)
+((= (mod pos 2) 0) (cons (car l) (cons a (insert-even-pos (cdr l) a (+ pos 1)))))
+(t (cons (car l) (insert-even-pos (cdr l) a (+ pos 1))))))
+
+(print (insert-even-pos '(1 2 3 4) 8))
+
+
+(defun concat (l1 l2)
+(cond
+((null l1) l2)
+(t (cons (car l1) (concat (cdr l1) l2)))))
+
+(defun atoms-reverse (l)
+(cond
+((null l) nil)
+((atom l) (cons l nil))
+(t (concat (atoms-reverse (cdr l)) (atoms-reverse (car l))))))
+
+
+(print (atoms-reverse '(((A B) C) (D E))))
+; => (E D C B A)
+
+
+(defun gcd2 (a b)
+(cond 
+((= b 0) a)
+(t (gcd2 b (- a (* b (/ a b)))))))
+
+(defun gcd-list (l)
+(cond 
+((null l) 0)
+((atom l) l)
+(t (let ((g1 (gcd-list (car l)))
+        (g2 (gcd-list (cdr l))))
+        (cond 
+        ((= g1 0) g2)
+        ((= g2 0) g1)
+        (t (gcd2 g1 g2)))))))
+        
+        
+(print (gcd-list '(12 (18 24) (6))))
+; => 6)
+
+(defun count-atom (x l)
+(cond
+((null l) 0)
+((atom l) (cond ((eql x l) 1) (t 0)))
+(t (+ (count-atom x (car l))
+   (count-atom x (cdr l))))))
+   
+(print (count-atom 'A '(((A B) C) (D A (A)))))
+; => 3
+
+
+
+4.
+a) Write a function to return the sum of two vectors.
+b) Write a function to get from a given list the list of all atoms, on any 
+ level, but on the same order. Example:
+ (((A B) C) (D E)) ==> (A B C D E)
+c) Write a function that, with a list given as parameter, inverts only continuous
+ sequences of atoms. Example:
+ (a b c (d (e f) g h i)) ==> (c b a (d (f e) i h g))
+d) Write a list to return the maximum value of the numerical atoms from a list, at superficial level.
+
+(defun sum-vectors (v1 v2)
+(cond
+((null v1) nil)
+(t (cons (+ (car v1) (car v2)) (sum-vectors (cdr v1) (cdr v2))))))
+
+(print (sum-vectors '(1 2 3) '(4 5 6)))
+
+
+(defun concat (l1 l2)
+(cond
+((null l1) l2)
+(t (cons (car l1) (concat (cdr l1) l2)))))
+
+
+(defun atoms (l)
+(cond
+((null l) nil)
+((atom l) (cons l nil))
+(t (concat (atoms (car l)) (atoms (cdr l))))))
+
+(print (atoms '(((A B) C) (D E))))
+
+
+
+(defun reverse-linear (l)
+  (cond
+    ((null l) nil)
+    (t (rev-helper l nil))))
+
+(defun rev-helper (l acc)
+  (cond
+    ((null l) acc)
+    (t (rev-helper (cdr l) (cons (car l) acc)))))
+    
+(defun take-atoms (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l)) (cons (car l) (take-atoms (cdr l))))
+    (t nil)))
+
+(defun drop-atoms (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l)) (drop-atoms (cdr l)))
+    (t l)))
+
+
+(defun invert-atoms (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l))
+     (concat
+       (reverse-linear (take-atoms l))
+       (invert-atoms (drop-atoms l))))
+    (t
+     (cons (invert-atoms (car l))
+           (invert-atoms (cdr l))))))
+           
+           
+(print (invert-atoms '(a b c (d (e f) g h i))))
+
+(defun max2 (a b)
+  (cond
+    ((> a b) a)
+    (t b)))
+    
+    
+(defun max2 (a b)
+  (cond
+    ((> a b) a)
+    (t b)))
+
+(defun max-superficial (l)
+  (cond
+    ((null l) -1000000)     ; base case
+    ((atom (car l))         ; check if first element is atom
+     (cond
+       ((numberp (car l))   ; check if atom is a number
+        (max2 (car l) (max-superficial (cdr l))))
+       (t (max-superficial (cdr l))))) ; atom but not number
+    (t (max-superficial (cdr l)))))    ; not atom → skip
+
+
+(print (max-superficial '(a 3 (10 20) 7 b)))
+
+
+5.
+a) Write twice the n-th element of a linear list. Example: for (10 20 30 40 50) and n=3 will produce (10 
+20 30 30 40 50).
+b) Write a function to return an association list with the two lists given as parameters. 
+ Example: (A B C) (X Y Z) --> ((A.X) (B.Y) (C.Z)).
+c) Write a function to determine the number of all sublists of a given list, on any level. 
+ A sublist is either the list itself, or any element that is a list, at any level. Example: 
+ (1 2 (3 (4 5) (6 7)) 8 (9 10)) => 5 lists:
+(list itself, (3 ...), (4 5), (6 7), (9 10)).
+d) Write a function to return the number of all numerical atoms in a list at superficial level.
+
+(defun write-twice (l n)
+  (cond
+    ((null l) nil)
+    ((eql n 1)
+     (cons (car l)
+           (cons (car l)
+                 (write-twice (cdr l) (- n 1)))))
+    (t
+     (cons (car l)
+           (write-twice (cdr l) (- n 1))))))
+
+(print (write-twice '(a b c d) 1))
+
+(defun assoc-list (l1 l2)
+  (cond
+    ((or (null l1) (null l2)) nil) ; stop when either list is empty
+    (t (cons (cons (car l1) (car l2)) ; pair first elements
+             (assoc-list (cdr l1) (cdr l2)))))) ; recurse on rest
+
+(print (assoc-list '(A B C) '(X Y Z)))
+
+
+(defun count-sublists-total (l)
+  (+ 1 (count-sublists l)))
+
+
+(defun count-sublists (l)
+  (cond
+    ((null l) 0)
+    ((atom (car l)) (count-sublists (cdr l))) ; skip atoms
+    (t (+ 1                                ; current sublist
+          (count-sublists (car l))         ; inside it
+          (count-sublists (cdr l))))))     ; rest of list
+
+(print (count-sublists-total '(1 2 (3 (4 5) (6 7)) 8 (9 10))))
+
+(defun count-numbers (l)
+  (cond
+    ((null l) 0)
+    ((atom (car l))
+     (cond
+       ((numberp (car l)) (+ 1 (count-numbers (cdr l))))
+       (t (count-numbers (cdr l))))) ; atom but not number
+    (t (count-numbers (cdr l)))))     ; sublist → skip
+
+(print (count-numbers '(1 a 3 (4 5) 7 b)))
+
+
+6.
+a) Write a function to test whether a list is linear.
+b) Write a function to replace the first occurence of an element E in a given list with an other element 
+O.
+c) Write a function to replace each sublist of a list with its last element.
+ A sublist is an element from the first level, which is a list.
+ Example: (a (b c) (d (e (f)))) ==> (a c (e (f))) ==> (a c (f)) ==> (a c f)
+ (a (b c) (d ((e) f))) ==> (a c ((e) f)) ==> (a c f)
+d) Write a function to merge two sorted lists without keeping double values.
+
+(defun linear-list (l)
+(cond
+((null l) t)
+((atom (car l)) (linear-list (cdr l)))
+(t nil)))
+
+(print (linear-list '(1 2 3)))
+
+
+(defun replace-first (l e o)
+(cond
+((null l) nil)
+((eql (car l) e) (cons o (cdr l)))
+(t (cons (car l) (replace-first (cdr l) e o)))))
+
+(print (replace-first '(1 2 3  4) 2 9))
+
+(defun last-element (l)
+  (cond
+    ((null l) nil)                ; empty list → nil
+    ((null (cdr l)) (car l))      ; only one element → return it
+    (t (last-element (cdr l)))))  ; else go to rest of the list
+
+(defun replace-sublists (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l))                          ; first element is atom → keep
+     (cons (car l) (replace-sublists (cdr l))))
+    (t                     ; first element is a sublist → replace with last
+     (cons (last-element (replace-sublists (car l)))
+           (replace-sublists (cdr l))))))
+           
+(print (replace-sublists '(a (b c) (d (e (f))))))
+
+(defun member-list (x l)   ; helper to check if x is already in list
+  (cond
+    ((null l) nil)
+    ((eql x (car l)) t)
+    (t (member-list x (cdr l)))))
+
+(defun merge-sort-nodup (l1 l2)
+  (cond
+    ((null l1) l2)                            ; if l1 empty, return l2
+    ((null l2) l1)                            ; if l2 empty, return l1
+    ((> (car l1) (car l2))                     ; car l1 bigger
+     (cond
+       ((member-list (car l1) l2)              ; if duplicate in l2, skip
+        (merge-sort-nodup (cdr l1) l2))
+       (t
+        (cons (car l1) (merge-sort-nodup (cdr l1) l2)))))
+    ((> (car l2) (car l1))                     ; car l2 bigger
+     (cond
+       ((member-list (car l2) l1)              ; if duplicate in l1, skip
+        (merge-sort-nodup l1 (cdr l2)))
+       (t
+        (cons (car l2) (merge-sort-nodup l1 (cdr l2))))))
+    (t                                         ; car l1 = car l2
+     (cons (car l1) (merge-sort-nodup (cdr l1) (cdr l2))))))
+
+(print (merge-sort-nodup '(9 2) '(8 6 2)))
+
+
+7.
+a) Write a function to eliminate the n-th element of a linear list.
+b) Write a function to determine the successor of a number represented digit by digit as a list, without 
+transforming the representation of the number from list to number. Example: (1 9 3 5 9 9) --> (1 9 3 6 0 
+0)
+c) Write a function to return the set of all the atoms of a list.
+ Exemplu: (1 (2 (1 3 (2 4) 3) 1) (1 4)) ==> (1 2 3 4)
+d) Write a function to test whether a linear list is a set.
+
+
+(defun remove-nth (l n)
+(cond 
+((null l) nil)
+((eql n 1) (remove-nth (cdr l) (- n 1)))
+(t (cons (car l) (remove-nth (cdr l) (- n 1))))))
+
+(print (remove-nth '(1 2 3 4 5 6 7) 5))
+
+(defun my-append (l1 l2)
+  (cond
+    ((null l1) l2)                  ; if first list is empty, result is second list
+    (t (cons (car l1) (my-append (cdr l1) l2))))) ; prepend first element and recurse
+
+
+(defun my-reverse (l)
+  (cond
+    ((null l) nil)
+    (t (my-append (my-reverse (cdr l)) (list (car l))))))
+
+;; add 1 to a reversed list of digits
+(defun add-one-reversed (l)
+  (cond
+    ((null l) (list 1)) ; carry at the end
+    ((= (car l) 9) (cons 0 (add-one-reversed (cdr l)))) ; 9 -> 0 + carry
+    (t (cons (+ 1 (car l)) (cdr l))))) ; no carry, just add 1
+
+;; main successor function
+(defun successor (digits)
+  (my-reverse (add-one-reversed (my-reverse digits))))
+
+(print (successor '(1 9 3 5 9 8)))
+
+(defun my-member (x l)
+  (cond
+    ((null l) nil)
+    ((eql x (car l)) t)
+    (t (my-member x (cdr l)))))
+
+(defun my-append (l1 l2)
+  (cond
+    ((null l1) l2)
+    (t (cons (car l1) (my-append (cdr l1) l2)))))
+
+(defun atoms-set (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l))
+     (cond
+       ((my-member (car l) (atoms-set (cdr l))) (atoms-set (cdr l)))
+       (t (cons (car l) (atoms-set (cdr l))))))
+    (t (atoms-set (my-append (car l) (cdr l))))))
+
+(print (atoms-set '(1 (2 (1 3 (2 4) 3) 1) (1 4))))
+
+
+(defun is-set (l)
+(cond
+((null l) t)
+((my-member (car l) (cdr l)) nil)
+(t (is-set (cdr l)))))
+
+
+(print (is-set '(1 2 3 3)))
+
+
+8.
+a) Write a function to return the difference of two sets.
+b) Write a function to reverse a list with its all sublists, on all levels.
+c) Write a function to return the list of the first elements of all list elements of a given list with an odd 
+number of elements at superficial level. Example:
+ (1 2 (3 (4 5) (6 7)) 8 (9 10 11)) => (1 3 9).
+d) Write a function to return the sum of all numerical atoms in a list at superficial level.
+
+(defun my-member (x l)
+(cond
+((null l) nil)
+((eql (car l) x) t)
+(t (my-member x (cdr l)))))
+
+(defun set-difference2 (l1 l2)
+(cond
+((null l1) nil)
+((my-member (car l1) l2) (set-difference2 (cdr l1) l2))
+(t (cons (car l1) (set-difference2 (cdr l1) l2)))))
+
+(print (set-difference2 '(1 2 3 4) '(2 4 5)))
+
+(defun my-append (l1 l2)
+  (cond
+    ((null l1) l2)
+    (t (cons (car l1) (my-append (cdr l1) l2)))))
+
+(defun deep-reverse (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l)) ; if the element is an atom, just process cdr
+     (my-append (deep-reverse (cdr l)) (list (car l))))
+    (t ; if the element is a list, reverse it recursively
+     (my-append (deep-reverse (cdr l)) (list (deep-reverse (car l)))))))
+
+(print (deep-reverse '(a (b c) (d (e f) g h) i)))
+
+(defun odd-length (l)
+  (cond
+    ((null l) nil)
+    ((null (cdr l)) t)
+    (t (odd-length (cdr (cdr l))))))
+
+(defun odd-firsts-helper (l)
+  (cond
+    ((null l) nil)
+    ((atom (car l))
+     (odd-firsts-helper (cdr l)))
+    ((odd-length (car l))
+     (cons (car (car l)) (odd-firsts-helper (cdr l))))
+    (t (odd-firsts-helper (cdr l)))))
+
+(defun odd-firsts (l)
+  (cond
+    ((odd-length l)
+     (cons (car l) (odd-firsts-helper (cdr l))))
+    (t (odd-firsts-helper l))))
+    
+(print (odd-firsts '(1 2 (3 (4 5) (6 7)) 8 (9 10 11))))
+
+
+
+(defun sum-superficial (l)
+(cond
+((null l) 0)
+((atom (car l)) (cond ((numberp (car l)) (+ (car l) (sum-superficial (cdr l))))
+(t (sum-superficial (cdr l)))))
+(t (sum-superficial (cdr l)))))
+
+(print (sum-superficial '(1 2 (3 4) 5))) ; => 8
+
+
+
+
+9.
+a) Write a function that merges two sorted linear lists and keeps double values.
+b) Write a function to replace an element E by all elements of a list L1 at all levels of a given list L.
+c) Write a function to determines the sum of two numbers in list representation, and returns the 
+corresponding decimal number, without transforming the representation of the number from list to 
+number.
+d) Write a function to return the greatest common divisor of all numbers in a linear list.
+
+(defun merge-sort-dup (l1 l2)
+(cond
+((null l1) l2)
+((null l2) l1)
+((< (car l1) (car l2)) (cons (car l1) (merge-sort-dup (cdr l1) l2)))
+(t (> (car l1) (car l2)) (cons (car l2) (merge-sort-dup l1 (cdr l2))))))
+
+
+(print (merge-sort-dup '(1 2 3 7) '(1 3 5)))
+
+
+(defun my-append (l1 l2)
+(cond
+((null l1) l2)
+(t (cons (car l1) (my-append (cdr l1) l2)))))
+
+(defun replace-elem (l e o)
+  (cond
+    ((null l) nil)
+
+    ;; if l itself is an atom
+    ((atom l)
+     (cond
+       ((eql l e) o)
+       (t l)))
+
+    ;; car is atom
+    ((atom (car l))
+     (cond
+       ((eql (car l) e)
+        (my-append o (replace-elem (cdr l) e o)))
+       (t
+        (cons (car l) (replace-elem (cdr l) e o)))))
+
+    ;; car is a list
+    (t
+     (cons
+       (replace-elem (car l) e o)
+       (replace-elem (cdr l) e o)))))
+
+(print (replace-elem '(2 (2 3) (4 (2 2))) 2 '(11 23 45)))
+
+
+(defun reverse-list (l)
+  (cond
+    ((null l) nil)
+    (t (my-append (reverse-list (cdr l)) (list (car l))))))
+
+(defun sum-lists (l1 l2)
+  (defun sum-helper (a b carry)
+    (cond
+      ((null a)
+       (cond
+         ((null b)
+          (cond
+            ((= carry 0) nil)
+            (t (list carry))))
+         (t (sum-helper '(0) b carry))))
+      ((null b) (sum-helper a '(0) carry))
+      (t (cons (mod (+ (car a) (car b) carry) 10)
+               (sum-helper (cdr a) (cdr b) (floor (+ (car a) (car b) carry) 10))))))
+  (reverse-list (sum-helper (reverse-list l1) (reverse-list l2) 0)))
+
+
+(print (sum-lists '(1 9 3 5 9 9) '(1 0 9)))
+
+(defun gcd2 (a b)
+(cond 
+((= b 0) a)
+(t (gcd2 b (mod a b)))))
+
+(defun gcd-list (l)
+(cond 
+((null l) 0)
+((atom l) l)
+(t (let ((g1 (gcd-list (car l)))
+        (g2 (gcd-list (cdr l))))
+        (cond 
+        ((= g1 0) g2)
+        ((= g2 0) g1)
+        (t (gcd2 g1 g2)))))))
+        
+        
+(print (gcd-list '(12 (18 24) (6))))
+; => 6)
+
+
+
+10.
+a) Write a function to return the product of all the numerical atoms from a list, at superficial level.
+b) Write a function to replace the first occurence of an element E in a given list with an other element 
+O.
+c) Write a function to compute the result of an arithmetic expression memorised 
+ in preorder on a stack. Examples:
+ (+ 1 3) ==> 4 (1 + 3)
+ (+ * 2 4 3) ==> 11 [((2 * 4) + 3)
+ (+ * 2 4 - 5 * 2 2) ==> 9 ((2 * 4) + (5 - (2 * 2))
+d) Write a function to produce the list of pairs (atom n), where atom appears for n times in the parameter 
+list. Example:
+ (A B A B A C A) --> ((A 4) (B 2) (C 1)).
+
+
+c)???
+
+
+11.
+a) Determine the least common multiple of the numerical values of a nonlinear list.
+b) Write a function to test if a linear list of numbers has a "mountain" aspect (a list has a "mountain" 
+aspect if the items increase to a certain point and then decreases. 
+ Eg. (10 18 29 17 11 10). The list must have at least 3 atoms to fullfil this criteria.
+c) Remove all occurrences of a maximum numerical element from a nonlinear list.
+d) Write a function which returns the product of numerical even atoms from a list, to any level.
+12.
+a) Write a function to return the dot product of two vectors. https://en.wikipedia.org/wiki/Dot_product
+b) Write a function to return the maximum value of all the numerical atoms of a list, at any level.
+c) All permutations to be replaced by: Write a function to compute the result of an arithmetic expression
+memorised 
+ in preorder on a stack. Examples:
+ (+ 1 3) ==> 4 (1 + 3)
+ (+ * 2 4 3) ==> 11 [((2 * 4) + 3)
+ (+ * 2 4 - 5 * 2 2) ==> 9 ((2 * 4) + (5 - (2 * 2))
+d) Write a function to return T if a list has an even number of elements on the first level, and NIL on the 
+contrary case, without counting the elements of the list
+
+13.
+a) A linear list is given. Eliminate from the list all elements from N to N steps, N-given.
+b) Write a function to test if a linear list of integer numbers has a "valley" aspect (a list has a valley 
+aspect if the items decrease to a certain point and then increase. Eg. 10 8 6 17 19 20). A list must have 
+at least 3 elements to fullfill this condition.
+c) Build a function that returns the minimum numeric atom from a list, at any level.
+d) Write a function that deletes from a linear list of all occurrences of the maximum element.
+14.
+a) Write a function to return the union of two sets.
+b) Write a function to return the product of all numerical atoms in a list, at any level.
+c) Write a function to sort a linear list with keeping the double values.
+d) Build a list which contains positions of a minimum numeric element from a given linear list.
+15.
+a) Write a function to insert an element E on the n-th position of a linear list.
+b) Write a function to return the sum of all numerical atoms of a list, at any level.
+c) Write a function to return the set of all sublists of a given linear list. Ex. For list ((1 2 3) ((4 5) 6)) => 
+((1 2 3) (4 5) ((4 5) 6)) 
+d) Write a function to test the equality of two sets, without using the difference of two sets.
+
+P2
+1. 
+a. Sort a list with removing the double values. E.g.: [4 2 6 2 3 4] --> [2 3 4 6]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to sort every 
+sublist with removing the doubles.
+Eg.: [1, 2, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, 2, [1, 4], 3, 6, [1, 3, 7, 9, 10], 5, [1], 7].
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+insert_unique(X, [], [X]).
+
+insert_unique(X, [H|T], [X,H|T]):-
+    X < H, !.
+
+insert_unique(X, [H|T], [H|R]):-
+    X > H,
+    insert_unique(X, T, R).
+
+insert_unique(X, [X|T], [X|T]).
+
+sort_unique([],[]).
+
+sort_unique([H|T], S):-
+    sort_unique(T, ST),
+    insert_unique(H, ST, S).
+    
+
+sort_sublists_unique([], []).
+
+sort_sublists_unique([H|T], [HS|TS]) :-
+    is_list(H), !,
+    sort_unique(H, HS),
+    sort_sublists_unique(T, TS).
+sort_sublists_unique([H|T], [H|TS]) :-
+    sort_sublists_unique(T, TS).
+ 
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+2. 
+a. Sort a list with keeping double values in resulted list. E.g.: [4 2 6 2 3 4] --> [2 2 3 4 4 6]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to sort every 
+sublist, keeping the doubles.
+Eg.: [1, 2, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, 2, [1, 4, 4], 3, 6, [1, 3, 7, 9, 10], 5, [1, 1, 1], 7].
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+insert_dup(X, [], [X]).
+
+insert_dup(X, [H|T], [X,H|T]):-
+    X =< H, !.
+
+insert_dup(X, [H|T], [H|R]):-
+    X > H,
+    insert_dup(X, T, R).
+
+sort_dup([],[]).
+
+sort_dup([H|T], S):-
+    sort_dup(T, ST),
+    insert_dup(H, ST, S).
+    
+
+sort_sublists_dup([], []).
+
+sort_sublists_dup([H|T], [HS|TS]) :-
+    is_list(H), !,
+    sort_dup(H, HS),
+    sort_sublists_dup(T, TS).
+sort_sublists_dup([H|T], [H|TS]) :-
+    sort_sublists_dup(T, TS).
+ 
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+3.
+a. Merge two sorted lists with removing the double values.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, merge all sublists with removing 
+the double values.
+[1, [2, 3], 4, 5, [1, 4, 6], 3, [1, 3, 7, 9, 10], 5, [1, 1, 11], 8] =>
+[1, 2, 3, 4, 6, 7, 9, 10, 11].
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+member_check(X, [X|_]).
+member_check(X, [_|T]) :-
+    member_check(X, T).
+
+remove_all_dup([], []).
+remove_all_dup([H|T], R) :-
+    member_check(H, T),       % if H appears later
+    remove_all_dup(T, R).     % skip H
+remove_all_dup([H|T], [H|R]) :-
+    \+ member_check(H, T),    % if H does not appear later
+    remove_all_dup(T, R).
+
+merge([], L, L).
+merge(L, [], L).
+
+merge([H1|T1], [H2|T2], [H1|R]):-
+    H1 < H2,
+    merge(T1, [H2|T2], R).
+
+merge([H1|T1], [H2|T2], [H2|R]):-
+    H2 < H1,
+    merge([H1|T1], T2, R).
+
+merge([H1|T1], [H2|T2], [H2|R]):-
+    H2 =:= H1,
+    merge(T1, T2, R).
+
+merge_all([], []).
+
+merge_all([H|T], R) :-
+    is_list(H),
+    merge_all(T, RT),
+    remove_all_dup(H, H1),   % remove duplicates inside the sublist
+    merge(H1, RT, R).
+
+merge_all([H|T], R) :-
+    \+ is_list(H),
+    merge_all(T, R).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+
+4. 
+a. Write a predicate to determine the sum of two numbers written in list representation.
+b. For a heterogeneous list, formed from integer numbers and list of digits, write a predicate to compute the 
+sum of all numbers represented as sublists.
+Eg.: [1, [2, 3], 4, 5, [6, 7, 9], 10, 11, [1, 2, 0], 6] => [8, 2, 2].
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+% my_append(L1, L2, Result) succeeds if Result is L1 followed by L2
+my_append([], L, L).
+my_append([H|T], L2, [H|R]) :-
+    my_append(T, L2, R).
+
+% reverse a list
+my_reverse([], []).
+my_reverse([H|T], R) :-
+    my_reverse(T, RT),
+    my_append(RT, [H], R).
+
+% helper: sum two reversed lists with carry
+sum_lists_rev([], [], 0, []).
+sum_lists_rev([], [], Carry, [Carry]) :- Carry > 0.
+sum_lists_rev([H1|T1], [], Carry, [S|R]) :-
+    S is (H1 + Carry) mod 10,
+    Carry1 is (H1 + Carry) // 10,
+    sum_lists_rev(T1, [], Carry1, R).
+sum_lists_rev([], [H2|T2], Carry, [S|R]) :-
+    S is (H2 + Carry) mod 10,
+    Carry1 is (H2 + Carry) // 10,
+    sum_lists_rev([], T2, Carry1, R).
+sum_lists_rev([H1|T1], [H2|T2], Carry, [S|R]) :-
+    Temp is H1 + H2 + Carry,
+    S is Temp mod 10,
+    Carry1 is Temp // 10,
+    sum_lists_rev(T1, T2, Carry1, R).
+
+% main sum predicate
+sum_lists(L1, L2, Sum) :-
+    my_reverse(L1, R1),
+    my_reverse(L2, R2),
+    sum_lists_rev(R1, R2, 0, RevSum),
+    my_reverse(RevSum, Sum).
+
+sum_all([], []).
+
+sum_all([H|T], R):-
+    is_list(H),
+    sum_all(T, RT),
+    sum_lists(H, RT, R).
+
+sum_all([H|T], R):-
+    \+is_list(H),
+    sum_all(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+5. 
+a. Substitute all occurrences of an element of a list with all the elements of another list. 
+Eg. subst([1,2,1,3,1,4],1,[10,11],X) produces X=[10,11,2,10,11,3,10,11,4].
+b. For a heterogeneous list, formed from integer numbers and list of numbers, replace in every sublist all 
+occurrences of the first element from sublist it a new given list.
+Eg.: [1, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] si [11, 11] =>
+[1, [11, 11, 1, 11, 11], 3, 6, [11, 11, 10, 1, 3, 9], 5, [11 11 11 11 11 11], 7]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+% append two lists
+my_append([], L, L).
+my_append([H|T], L2, [H|R]) :-
+    my_append(T, L2, R).
+
+% replace every occurrence of E with list L
+subs([], _, _, []).  % empty list case
+
+subs([H|T], E, L, R) :-
+    H =:= E,              % found element to replace
+    my_append(L, Rest, R), % append replacement list L to result of recursion
+    subs(T, E, L, Rest).
+
+subs([H|T], E, L, [H|R]) :-
+    H \= E,               % H is not the element
+    subs(T, E, L, R).
+
+first_elem([], -1).
+
+first_elem([H|_], H).
+
+subs_all([], _, []).
+
+subs_all([H|T], L, [HNew|RNew]):-
+    is_list(H),
+    first_elem(H, F),
+    subs(H, F, L, HNew),
+    subs_all(T, L, RNew).
+
+subs_all([H|T], L, [H|RNew]):-
+    \+is_list(H),
+    subs_all(T, L, RNew).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+6. 
+a. Determine the product of a number represented as digits in a list to a given digit. 
+Eg.: [1 9 3 5 9 9] * 2 => [3 8 7 1 9 8]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to replace 
+every sublist with the position of the maximum element from that sublist.
+[1, [2, 3], [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, [2], [1, 3], 3, 6, [2], 5, [1, 2, 3], 7]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+
+% append two lists
+my_append([], L, L).
+my_append([H|T], L2, [H|R]) :- 
+    my_append(T, L2, R).
+
+% reverse a list
+my_reverse([], []).
+my_reverse([H|T], R) :-
+    my_reverse(T, RT),
+    my_append(RT, [H], R).
+
+% multiply digits recursively
+prod_digits_helper([], _, 0, []).
+prod_digits_helper([H|T], D, Carry, [R|RT]) :-
+    Temp is H*D + Carry,
+    R is Temp mod 10,
+    NewCarry is Temp // 10,
+    prod_digits_helper(T, D, NewCarry, RT).
+prod_digits_helper([], _, Carry, [Carry]) :-
+    Carry > 0.
+
+% main predicate
+prod_digits(Number, D, Result) :-
+    my_reverse(Number, RevNum),
+    prod_digits_helper(RevNum, D, 0, RevRevResult),
+    my_reverse(RevRevResult, Result).
+
+
+% find maximum in a list
+max_list([H|T], Max) :- 
+    max_list(T, H, Max).
+
+max_list([], Max, Max).
+
+max_list([H|T], CurrMax, Max) :-
+    H > CurrMax,
+    max_list(T, H, Max).
+
+max_list([H|T], CurrMax, Max) :-
+    H =< CurrMax,
+    max_list(T, CurrMax, Max).
+
+% find positions of max elements in list
+positions_max([], _, _, []).
+positions_max([H|T], Max, Pos, [Pos|R]) :-
+    H =:= Max,
+    NextPos is Pos + 1,
+    positions_max(T, Max, NextPos, R).
+positions_max([H|T], Max, Pos, R) :-
+    H =\= Max,
+    NextPos is Pos + 1,
+    positions_max(T, Max, NextPos, R).
+
+% process sublist
+process_sublist(Sub, PosList) :-
+    max_list(Sub, Max),
+    positions_max(Sub, Max, 1, PosList).
+
+% main heterogeneous list processor
+max_positions([], []).
+max_positions([H|T], [PH|PT]) :-
+    is_list(H),
+    process_sublist(H, PH),
+    max_positions(T, PT).
+max_positions([H|T], [H|PT]) :-
+    \+ is_list(H),
+    max_positions(T, PT).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+7. 
+a. Determine the position of the maximal element of a linear list. 
+Eg.: maxpos([10,14,12,13,14], L) produces L = [2,5].
+b. For a heterogeneous list, formed from integer numbers and list of numbers, replace every sublist with the 
+position of the maximum element from that sublist.
+[1, [2, 3], [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, [2], [1, 3], 3, 6, [2], 5, [1, 2, 3], 7
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+
+max2(A,B,A):- A > B.
+max2(A,B,B):- B >= A.
+
+max_list([X], X).
+
+max_list([H|T], M):-
+    max_list(T, M1),
+    max2(H, M1, M).
+
+pos_in_list(L, E, P):-
+    pos_in_list(L, E, 1, P).
+
+pos_in_list([], _, _, []).
+
+pos_in_list([H|T], E, Pos, R):-
+    H \= E,
+    Pos1 is Pos + 1,
+    pos_in_list(T, E, Pos1, R).
+
+pos_in_list([H|T], E, Pos, [Pos|R]):-
+    H == E,
+    Pos1 is Pos + 1,
+    pos_in_list(T, E, Pos1, R).
+
+max_pos(L, P):-
+    max_list(L, M),
+    pos_in_list(L, M, P).
+
+subs_all([], []).
+
+subs_all([H|T], [P|R]):-
+    is_list(H),
+    max_pos(H, P),
+    subs_all(T, R).
+
+subs_all([H|T], [H|R]):-
+    \+is_list(H),
+    subs_all(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+8. 
+a. Determine the successor of a number represented as digits in a list. 
+Eg.: [1 9 3 5 9 9] --> [1 9 3 6 0 0]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, determine the successor of a 
+sublist considered as a number.
+[1, [2, 3], 4, 5, [6, 7, 9], 10, 11, [1, 2, 0], 6] => 
+[1, [2, 4], 4, 5, [6, 8, 0], 10, 11, [1, 2, 1], 6
+
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+% append two lists
+my_append([], L, L).
+my_append([H|T], L2, [H|R]) :- 
+    my_append(T, L2, R).
+
+% reverse a list
+my_reverse([], []).
+my_reverse([H|T], R) :-
+    my_reverse(T, RT),
+    my_append(RT, [H], R).
+
+% add 1 to reversed number with carry
+succ_helper([], 1, [1]).  % carry left after last digit
+succ_helper([], 0, []).    % no carry
+succ_helper([H|T], Carry, [R|RT]) :-
+    Temp is H + Carry,
+    R is Temp mod 10,
+    NewCarry is Temp // 10,
+    succ_helper(T, NewCarry, RT).
+
+% main predicate
+successor(NumberList, Result) :-
+    my_reverse(NumberList, RevNum),
+    succ_helper(RevNum, 1, RevRevResult),
+    my_reverse(RevRevResult, Result).
+
+
+% process heterogeneous list
+successor_list([], []).
+successor_list([H|T], [SH|ST]) :-
+    is_list(H),
+    successor(H, SH),
+    successor_list(T, ST).
+successor_list([H|T], [H|ST]) :-
+    \+ is_list(H),
+    successor_list(T, ST).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+9. 
+a. For a list of integer number, write a predicate to add in list after 1-st, 3-rd, 7-th, 15-th element a given value 
+e.
+b. For a heterogeneous list, formed from integer numbers and list of numbers; add in every sublist after 1-st, 
+3-rd, 7-th, 15-th element the value found before the sublist in the heterogenous list. The list has the particularity 
+that starts with a number and there aren’t two consecutive elements lists.
+Eg.: [1, [2, 3], 7, [4, 1, 4], 3, 6, [7, 5, 1, 3, 9, 8, 2, 7], 5] =>
+[1, [2, 1, 3], 7, [4, 7, 1, 4, 7], 3, 6, [7, 6, 5, 1, 6, 3, 9, 8, 2, 6, 7], 5].
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+add_after(L, E, R):-
+    add_after(L, E, 1, 1, R).
+
+add_after([], _, _, _, []).
+
+add_after([H|T], E, Pos, Target, [H, E|R]):-
+    Pos =:= Target,
+    Pos1 is Pos + 1,
+    Target1 is Target * 2 + 1,
+    add_after(T, E, Pos1, Target1, R).
+
+add_after([H|T], E, Pos, Target, [H|R]):-
+    Pos =\= Target,
+    Pos1 is Pos + 1,
+    add_after(T, E, Pos1, Target, R).
+
+
+add_after_hetero(L, R) :-
+    add_after_hetero(L, 0, R).   % dummy previous value, not used for first element
+
+add_after_hetero([], _, []).
+
+% when current element is a number
+add_after_hetero([H|T], _, [H|R]) :-
+    number(H),
+    add_after_hetero(T, H, R).
+
+% when current element is a sublist
+add_after_hetero([H|T], Prev, [RH|R]) :-
+    is_list(H),
+    add_after(H, Prev, RH),
+    add_after_hetero(T, Prev, R).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+10. 
+a. For a list of integer numbers, define a predicate to write twice in list every prime number.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to write in 
+every sublist twice every prime number.
+Eg.: [1, [2, 3], 4, 5, [1, 4, 6], 3, [1, 3, 7, 9, 10], 5] =>
+[1, [2, 2, 3, 3], 4, 5, [1, 4, 6], 3, [1, 3, 3, 7, 7, 9, 10], 5]
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+prime(2).
+prime(N) :-
+    N > 2,
+    N mod 2 =\= 0,
+    \+ has_divisor(N, 3).
+
+has_divisor(N, D) :-
+    D * D =< N,
+    N mod D =:= 0.
+
+has_divisor(N, D) :-
+    D * D =< N,
+    D2 is D + 2,
+    has_divisor(N, D2).
+
+dup_primes([], []).
+
+dup_primes([H|T], [H,H|R]) :-
+    prime(H),
+    dup_primes(T, R).
+
+dup_primes([H|T], [H|R]) :-
+    \+ prime(H),
+    dup_primes(T, R).
+
+dup_primes_hetero([], []).
+
+dup_primes_hetero([H|T], [RH|R]) :-
+    is_list(H),
+    dup_primes(H, RH),
+    dup_primes_hetero(T, R).
+
+dup_primes_hetero([H|T], [H|R]) :-
+    \+ is_list(H),
+    dup_primes_hetero(T, R).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+11.
+a. Replace all occurrences of an element from a list with another element e.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to determine 
+the maximum number of the list, and then to replace this value in sublists with the maximum value of sublist.
+Eg.: [1, [2, 5, 7], 4, 5, [1, 4], 3, [1, 3, 5, 8, 5, 4], 5, [5, 9, 1], 2] =>
+[1, [2, 7, 7], 4, 5, [1, 4], 3, [1, 3, 8, 8, 8, 4], 5, [9, 9, 1], 2]
+
+
+12.
+a. Define a predicate to add after every element from a list, the divisors of that number.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to add in 
+every sublist the divisors of every element.
+Eg.: [1, [2, 5, 7], 4, 5, [1, 4], 3, 2, [6, 2, 1], 4, [7, 2, 8, 1], 2] =>
+[1, [2, 5, 7], 4, 5, [1, 4, 2], 3, 2, [6, 2, 3, 2, 1], 4, [7, 2, 8, 2, 4, 1], 2

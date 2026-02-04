@@ -1,0 +1,1629 @@
+1.
+a. Write a predicate to determine the lowest common multiple of a list formed from integer numbers.
+b. Write a predicate to add a value v after 1-st, 2-nd, 4-th, 8-th, … element in a list.
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+gcd(A, 0, A):- A > 0, !.
+
+gcd(A, B, G):-
+    B > 0,
+    R is A mod B,
+    gcd(B, R, G).
+
+lcm(A, B, L):-
+    gcd(A, B, G),
+    L is abs(A*B)//G.
+
+lcm_list([X], X).
+
+lcm_list([H|T], L):-
+    lcm_list(T, L1),
+    lcm(H, L1, L).
+
+%b)
+add_after(List, V, Result):-
+    add_after(List, V, 1, 1, Result).
+
+add_after([], _, _, _, []).
+
+add_after([H|T], V, Pos, Pos, [H, V| R]):-
+    NextPos is Pos+1,
+    NextTarget is Pos*2,
+    add_after(T, V, NextPos, NextTarget, R).
+
+add_after([H|T], V, Pos, Target, [H | R]):-
+    Pos =\= Target,
+    NextPos is Pos + 1,
+    add_after(T, V, NextPos, Target, R).
+
+
+/** <examples> Your example queries go here, e.g.
+?- lcm_list([4,6,8], L).
+add_after([1,2,3,4,5,6,7], X, R).
+*/
+
+
+2.
+a. Write a predicate to remove all occurrences of a certain atom from a list.
+b. Define a predicate to produce a list of pairs (atom n) from an initial list of atoms. In this initial list atom has 
+n occurrences.
+Eg.: numberatom([1, 2, 1, 2, 1, 3, 1], X) => X = [[1, 4], [2, 2], [3, 1]].
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+remove_elem([], _, []).
+
+remove_elem([H|T], E, R):-
+    H == E,
+    remove_elem(T, E, R).
+
+remove_elem([H|T], E, [H|R]):-
+    H \== E,
+    remove_elem(T, E, R).
+%b)
+no_occurences([], _, 0).
+no_occurences([H|T], E, C):-
+    H == E,
+    no_occurences(T, E, C1),
+    C is C1 + 1.
+
+no_occurences([H|T], E, C):-
+    H =\= E,
+    no_occurences(T, E, C).
+    
+in_list([], _).
+in_list([E|T], E):-!.
+in_list([_|T], E):-
+    in_list(T, E).
+
+not_in_list([], _).
+not_in_list([H|T], E):-
+	E \= H,
+    not_in_list(T,E).
+
+unique([], []).
+unique([H|T], [H|R]):-
+    not_in_list(T,H),
+    unique(T, R).
+
+unique([H|T], R):-
+    in_list(T, H),
+    unique(T, R).
+
+numberatom(L, P):-
+    unique(L, L1),
+    build_pairs(L1, L, P).
+
+build_pairs([], _, []).
+build_pairs([H|T], L, [[H, C]|R]):-
+    no_occurences(L, H, C),
+    build_pairs(T, L, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+3.
+a. Define a predicate to remove from a list all repetitive elements. 
+Eg.: l=[1,2,1,4,1,3,4] => l=[2,3])
+b. Remove all occurrence of a maximum value from a list on integer numbers.
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+
+remove_repetitive(L, R):-
+    remove_all(L, L, R).
+
+remove_all([], _, []).
+remove_all([H|T], List, R):-
+    count_occurrences(List, H, N),
+    N > 1,
+    remove_all(T, List, R).
+
+remove_all([H|T], List, [H | R]):-
+    count_occurrences(List, H, N),
+    N == 1,
+    remove_all(T, List, R).
+
+
+count_occurrences([], _, 0).
+count_occurrences([H|T], E, N):-
+    H == E,
+    count_occurrences(T, E, N1),
+    N is N1 + 1.
+
+count_occurrences([H|T], E, N):-
+    H \== E,
+    count_occurrences(T, E, N).
+
+%b)
+
+max([X], X).
+
+max([H|T], M):-
+    max(T, MT),
+    max2(H, MT, M).
+
+max2(A,B,A):- A >= B.
+max2(A,B,B):- A < B.
+
+remove_max(L, R):-
+    max(L, M),
+    remove_elem(L, M, R).
+
+remove_elem([], _, []).
+remove_elem([H|T], E, R):-
+    H == E,
+    remove_elem(T, E, R).
+
+remove_elem([H|T], E, [H|R]):-
+    H \== E,
+    remove_elem(T, E, R).
+
+
+
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+4.
+a. Write a predicate to determine the difference of two sets.
+b. Write a predicate to add value 1 after every even element from a list.
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+set_difference([], _, []).
+
+set_difference([H|T], Set2, R) :-
+    in_list(H, Set2), !,
+    set_difference(T, Set2, R).
+
+set_difference([H|T], Set2, [H|R]) :-
+    set_difference(T, Set2, R).
+
+in_list(E, [E|_]) :- !.
+in_list(E, [_|T]) :-
+    in_list(E, T).
+
+
+%b)
+add_even([],[]).
+
+add_even([H|T], [H,1|R]):-
+    0 is H mod 2,
+    add_even(T, R).
+
+add_even([H|T], [H|R]):-
+    1 is H mod 2,
+    add_even(T, R).
+    
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+5.
+a. Write a predicate to compute the union of two sets.
+b. Write a predicate to determine the set of all the pairs of elements in a list. 
+Eg.: L = [a b c d] => [[a b] [a c] [a d] [b c] [b d] [c d]].
+% ---------- helper: element in list ----------
+in_list(E, [E|_]) :- !.
+in_list(E, [_|T]) :- in_list(E, T).
+
+% ---------- a) union of two sets ----------
+union_set([], S2, S2).
+
+union_set([H|T], S2, U) :-
+    in_list(H, S2), !,
+    union_set(T, S2, U).
+
+union_set([H|T], S2, [H|U]) :-
+    union_set(T, S2, U).
+
+% ---------- helper: manual append ----------
+join([], L, L).
+join([H|T], L, [H|R]) :- join(T, L, R).
+
+% ---------- b) pairs ----------
+pairs([], []).
+pairs([_], []).
+
+pairs([H|T], R) :-
+    pairs_with(H, T, R1),
+    pairs(T, R2),
+    join(R1, R2, R).
+
+pairs_with(_, [], []).
+pairs_with(E, [H|T], [[E,H] | R]) :-
+    pairs_with(E, T, R).
+
+
+6.
+a. Write a predicate to test if a list is a set.
+b. Write a predicate to remove the first three occurrences of an element in a list. If the element occurs less than three times, all occurrences will be removed.
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+% a)
+
+is_set([]).
+is_set([H|T]):-
+    \+in_list(T, H),
+    is_set(T).
+
+in_list([E|_], E).
+in_list([_|T], E):-
+    in_list(T, E).
+
+
+
+%b)
+remove_first_three([], _, _, []).
+
+remove_first_three([E|T], E, Count, R) :-
+    Count > 0,
+    NewCount is Count - 1,
+    remove_first_three(T, E, NewCount, R).
+
+remove_first_three([H|T], E, Count, [H|R]) :-
+    H \== E,
+    remove_first_three(T, E, Count, R).
+
+remove_first_three(L, E, R) :-
+    remove_first_three(L, E, 3, R).
+
+/** <examples> Your example queries go here, e.g.
+?- union_set([], [a,b,c], U1),
+union_set([a,b,c],[d,e,a],U2),
+pairs([a,b,c,d,e], P).
+
+
+*/
+
+7.
+a. Write a predicate to compute the intersection of two sets.
+b. Write a predicate to create a list (m, ..., n) of all integer numbers from the interval [m, n].
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+intersect([],_,[]).
+intersect([H|T], Set2, [H|R]):-
+    is_list(H, Set2),
+    intersect(T, Set2, R).
+
+intersect([H|T], Set2, R):-
+    \+is_list(H, Set2),
+    intersect(T, Set2, R).
+
+is_list(E, [E|_]).
+is_list(E, [_|T]):-
+	is_list(E, T).
+
+
+%b)
+range(M, N, []):-
+    M > N,
+    !.
+range(M, N, [M|R]):-
+    M =< N,
+    M1 is M + 1,
+    range(M1, N, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+8.
+a. Write a predicate to determine if a list has even numbers of elements without counting the elements from 
+the list.
+b. Write a predicate to delete first occurrence of the minimum number from a list.
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+even_length([]).
+even_length([_,_|T]):-
+    even_length(T).
+%b)
+min2(A,B,A):- A =< B.
+min2(A,B,B):- A > B.
+list_min([X], X).
+list_min([H|T], M):-
+    list_min(T, MinTail),
+    min2(H, MinTail, M).
+
+remove_elem([], _, []).
+remove_elem([H|T], E, T):-
+    H == E,
+    !.
+
+remove_elem([H|T], E, [H|R]):-
+    H =\= E,
+    remove_elem(T, E, R).
+
+remove_first(L, R):-
+    list_min(L, M),
+    remove_elem(L, M, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+9.
+a. Insert an element on the position n in a list.
+b. Define a predicate to determine the greatest common divisor of all numbers from a list.
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+
+insert_n([], E, 1, [E]) :- !.
+insert_n([], _, _, []) :- !. 
+insert_n([H|T], E, 1, [E, H|T]) :- !.
+
+insert_n([H|T], E, N, [H|R]) :-
+    N > 1,
+    N1 is N - 1,
+    insert_n(T, E, N1, R).
+
+    
+
+%b)
+gcd(A,0,A):-
+    !.
+gcd(A,B,G):-
+    B > 0,
+    R is A mod B,
+    gcd(B, R, G).
+
+gcd_list([X], X).
+
+gcd_list([H|T], G):-
+    gcd_list(T, G1),
+    gcd(H, G1, G).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+10.
+a. Define a predicate to test if a list of an integer elements has a "valley" aspect (a set has a "valley" aspect if 
+elements decreases up to a certain point, and then increases. 
+eg: 10 8 6 9 11 13 – has a “valley” aspect
+b. Calculate the alternate sum of list’s elements (l1 - l2 + l3 ...).
+
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+
+valley(L):-
+    decrease_then_increase(L).
+
+decrease_then_increase([A,B|T]):-
+    A > B,
+    decrease_then_increase([B|T]).
+
+decrease_then_increase([A,B|T]):-
+    A < B,
+    increasing([B|T]).
+
+increasing([A,B|T]):-
+    A < B,
+    increasing([B|T]).
+
+increasing([_]).
+   
+alt_sum(L, R) :-
+    alt_sum(L, 1, R).
+
+% sign = 1 → add
+% sign = -1 → subtract
+alt_sum([], _, 0).
+alt_sum([H|T], Sign, R) :-
+    NextSign is -Sign,
+    alt_sum(T, NextSign, R1),
+    R is H * Sign + R1.
+
+
+
+
+
+
+
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+11.
+a. Write a predicate to swap an element from a list with another element in the list.
+b. Write a predicate to create the sublist (lm, …, ln) from the list (l1,…, lk).
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+
+get_nth([H|_], 1, H).
+get_nth([_|T], N, x):-
+    N > 1,
+    N1 is N - 1,
+    get_nth(T, N1, X).
+
+replace_nth([_|T], 1, X, [X|T]).
+replace_nth([H|T], N, X, [H|R]) :-
+    N > 1,
+    N1 is N - 1,
+    replace_nth(T, N1, X, R).
+
+
+swap(List, I, J, Result) :-
+    get_nth(List, I, EI),
+    get_nth(List, J, EJ),
+    replace_nth(List, I, EJ, R1),
+    replace_nth(R1, J, EI, Result).
+
+
+sublist(L, M, N, R):-
+    take_from(L, M, N, 1, R).
+
+take_from([], _, _, _, []).
+take_from([H|T], M, N, Pos, [H|R]):-
+    Pos >= M,
+    Pos =< N,
+    Pos1 is Pos + 1,
+    take_from(T, M, N, Pos1, R).
+
+take_from([_|T], M, N, Pos, R):-
+    Pos1 is Pos + 1,
+    take_from(T, M, N, Pos1, R).
+
+
+
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+12. 
+a. Write a predicate to substitute in a list a value with all the elements of another list.
+b. Remove the n-th element of a list.
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+
+substitute_list([], _, _, []).
+substitute_list([H|T], X, L, R) :-
+    H == X,
+    substitute_list(T, X, L, R1),
+    append_easy(L, R1, R).
+
+substitute_list([H|T], X, L, [H|R]) :-
+    H \= X,
+    substitute_list(T, X, L, R).
+
+append_easy([], L, L).
+append_easy([H|T], L, [H|R]) :-
+    append_easy(T, L, R).
+
+
+remove_nth([_|T], 1, T).
+remove_nth([H|T], N, [H|R]) :-
+    N > 1,
+    N1 is N - 1,
+    remove_nth(T, N1, R).
+
+
+
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+13.
+a. Given a linear numerical list write a predicate to remove all sequences of consecutive values. 
+Eg.: remove([1, 2, 4, 6, 7, 8, 10], L) will produce L=[4, 10].
+b. For a heterogeneous list, formed from integer numbers and list of numbers; write a predicate to delete from 
+every sublist all sequences of consecutive values.
+Eg.: [1, [2, 3, 5], 9, [1, 2, 4, 3, 4, 5, 7, 9], 11, [5, 8, 2], 7] =>
+[1, [5], 9, [4, 7, 9], 11, [5, 8, 2], 7] 
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+consecutive(A, B) :-
+    B is A + 1.
+
+
+remove_consec(L, R) :-
+    remove_consec_aux(L, none, R).
+
+remove_consec_aux([], _, []).
+remove_consec_aux([H], Prev, []) :-      % last element, but in a sequence → remove
+    consecutive(Prev, H), !.
+remove_consec_aux([H], Prev, [H]) :-     % last element, not in a sequence → keep
+    !, not(consecutive(Prev, H)).
+
+remove_consec_aux([H1,H2|T], Prev, R) :-
+    consecutive(H1, H2), !,              % start of a consecutive block
+    remove_consec_aux([H2|T], H1, R).
+
+remove_consec_aux([H,H2|T], Prev, R) :-
+    consecutive(Prev, H), !,             % previous consecutive → remove this one too
+    remove_consec_aux([H2|T], H, R).
+
+remove_consec_aux([H,H2|T], Prev, [H|R]) :-
+    remove_consec_aux([H2|T], H, R).
+
+remove_consec_heter([], []).
+remove_consec_heter([H|T], [R1|R2]) :-
+    is_list(H),                     % sublist → process it
+    !,
+    remove_consec(H, R1),
+    remove_consec_heter(T, R2).
+
+remove_consec_heter([H|T], [H|R]) :-    % normal number → keep
+    remove_consec_heter(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+14.
+a. Define a predicate to determine the longest sequences of consecutive even numbers (if exist more maximal 
+sequences one of them).
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to replace 
+every sublist with the longest sequences of even numbers from that sublist.
+Eg.: [1, [2, 1, 4, 6, 7], 5, [1, 2, 3, 4], 2, [1, 4, 6, 8, 3], 2, [1, 5], 3] =>
+[1, [4, 6], 5, [2], 2, [4, 6, 8], 2, [], 3]
+
+
+
+
+15. 
+a. Define a predicate to determine the predecessor of a number represented as digits in a list. 
+Eg.: [1 9 3 6 0 0] => [1 9 3 5 9 9]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to determine 
+the predecessor of the every sublist considered as numbers.
+Eg.: [1, [2, 3], 4, 5, [6, 7, 9], 10, 11, [1, 2, 0], 6] =>
+[1, [2, 2], 4, 5, [6, 7, 8], 10, 11, [1, 1, 9] 6
+
+
+Lab 2
+1. 
+a. Sort a list with removing the double values. E.g.: [4 2 6 2 3 4] --> [2 3 4 6]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to sort every 
+sublist with removing the doubles.
+Eg.: [1, 2, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, 2, [1, 4], 3, 6, [1, 3, 7, 9, 10], 5, [1], 7].
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+% insert_no_dup(Element, SortedList, ResultList)
+
+insert_no_dup(X, [], [X]).                 % insert into empty list
+
+insert_no_dup(X, [X|T], [X|T]) :- !.        % already exists → keep list as is
+
+insert_no_dup(X, [H|T], [X,H|T]) :- 
+    X < H, !.                               % insert before larger element
+
+insert_no_dup(X, [H|T], [H|R]) :-           % otherwise continue
+    insert_no_dup(X, T, R).
+
+
+% sort_no_dup(List, Result)
+
+sort_no_dup([], []).
+
+sort_no_dup([H|T], R) :-
+    sort_no_dup(T, R1),
+    insert_no_dup(H, R1, R).
+%b)
+proc_no_dup([], []).
+
+proc_no_dup([H|T], [R1|R2]) :-
+    is_list(H), !,           % if H is a sublist
+    sort_no_dup(H, R1),      % sort the sublist without duplicates
+    proc_no_dup(T, R2).
+
+proc_no_dup([H|T], [H|R]) :- % normal element
+    proc_no_dup(T, R).
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+2. 
+a. Sort a list with keeping double values in resulted list. E.g.: [4 2 6 2 3 4] --> [2 2 3 4 4 6]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to sort every 
+sublist, keeping the doubles.
+Eg.: [1, 2, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, 2, [1, 4, 4], 3, 6, [1, 3, 7, 9, 10], 5, [1, 1, 1], 7].
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+%a)
+% insert_no_dup(Element, SortedList, ResultList)
+
+insert_dup(X, [], [X]).  
+% insert into empty list
+insert_dup(X, [H|T], [X,H|T]):-
+    X =< H,
+    !.
+insert_dup(X, [H|T], [H|R]) :-           % otherwise continue
+    insert_dup(X, T, R).
+
+
+% sort_no_dup(List, Result)
+
+sort_dup([], []).
+
+sort_dup([H|T], R) :-
+    sort_dup(T, R1),
+    insert_dup(H, R1, R).
+%b)
+proc_dup([], []).
+
+proc_dup([H|T], [R1|R2]) :-
+    is_list(H), !,           % if H is a sublist
+    sort_dup(H, R1),      % sort the sublist without duplicates
+    proc_dup(T, R2).
+
+proc_dup([H|T], [H|R]) :- % normal element
+    proc_dup(T, R).
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+3.
+a. Merge two sorted lists with removing the double values.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, merge all sublists with removing 
+the double values.
+[1, [2, 3], 4, 5, [1, 4, 6], 3, [1, 3, 7, 9, 10], 5, [1, 1, 11], 8] =>
+[1, 2, 3, 4, 6, 7, 9, 10, 11].
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+% Helper: merge two sorted lists, removing duplicates
+merge_no_dup([], L, L).
+merge_no_dup(L, [], L).
+
+merge_no_dup([H1|T1], [H2|T2], [H1|R]) :-
+    H1 < H2, !,
+    merge_no_dup(T1, [H2|T2], R).
+
+merge_no_dup([H1|T1], [H2|T2], [H2|R]) :-
+    H2 < H1, !,
+    merge_no_dup([H1|T1], T2, R).
+
+merge_no_dup([H|T1], [H|T2], [H|R]) :-
+    merge_no_dup(T1, T2, R).
+
+% Helper: split a list into two halves
+split([], [], []).
+split([X], [X], []).
+split([X,Y|T], [X|A], [Y|B]) :-
+    split(T, A, B).
+
+% Merge sort that removes duplicates
+sort_no_dup([], []).
+sort_no_dup([X], [X]).
+sort_no_dup(L, R) :-
+    split(L, A, B),
+    sort_no_dup(A, SA),
+    sort_no_dup(B, SB),
+    merge_no_dup(SA, SB, R).
+
+% -----------------------------
+% Merge all sublists of a heterogeneous list
+% -----------------------------
+merge_all_no_dup([], []).
+
+merge_all_no_dup([H|T], R) :-
+    is_list(H), !,
+    sort_no_dup(H, SH),
+    merge_all_no_dup(T, R2),
+    merge_no_dup(SH, R2, R).
+
+merge_all_no_dup([_|T], R) :-
+    merge_all_no_dup(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+4. 
+a. Write a predicate to determine the sum of two numbers written in list representation.
+b. For a heterogeneous list, formed from integer numbers and list of digits, write a predicate to compute the 
+sum of all numbers represented as sublists.
+Eg.: [1, [2, 3], 4, 5, [6, 7, 9], 10, 11, [1, 2, 0], 6] => [8, 2, 2].
+
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+list_to_number(L, N):-
+    list_to_number(L, 0, N).
+
+list_to_number([], N, N).
+list_to_number([H|T], Acc, N):-
+    Acc1 is Acc*10+H,
+    list_to_number(T, Acc1, N).
+
+number_to_list(N, L):-
+    N > 0,
+    number_to_list(N, [], L).
+
+number_to_list(0, Acc, Acc):-
+    Acc \= [].
+
+number_to_list(N, Acc, L):-
+    N > 0,
+    D is N mod 10,
+    N1 is N // 10,
+    number_to_list(N1, [D|Acc], L).
+
+add_list(L1,L2,S):-
+    list_to_number(L1, N1),
+    list_to_number(L2, N2),
+    N is N1 + N2,
+    number_to_list(N, S).
+    
+add_list_all([], 0).
+
+add_list_all([H|T], S):-
+    is_list(H),
+    !,
+    list_to_number(H, N),
+    add_list_all(T, ST),
+    S is N + ST.
+
+add_list_all([_|T], S) :-
+    add_list_all(T, S).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+5. 
+a. Substitute all occurrences of an element of a list with all the elements of another list. 
+Eg. subst([1,2,1,3,1,4],1,[10,11],X) produces X=[10,11,2,10,11,3,10,11,4].
+b. For a heterogeneous list, formed from integer numbers and list of numbers, replace in every sublist all 
+occurrences of the first element from sublist it a new given list.
+Eg.: [1, [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] si [11, 11] =>
+[1, [11, 11, 1, 11, 11], 3, 6, [11, 11, 10, 1, 3, 9], 5, [11 11 11 11 11 11], 7]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+subst([],_,_,[]).
+
+subst([E|T], E, NewL, R):-
+    subst(T, E, NewL, R1),
+    appendNew(NewL, R1, R).
+
+subst([H|T], E, NewL, [H|R]):-
+    H =\= E,
+    subst(T, E, NewL, R).
+
+appendNew([], L, L).
+
+appendNew([H|T], L, [H|R]):-
+    appendNew(T, L, R).
+
+subst_first([], _,[]).
+
+subst_first([H|T], NewL, [R1|R]):-
+    is_list(H),
+    !,
+    H=[First|_],
+    subst(H, First, NewL, R1),
+    subst_first(T, NewL, R).
+
+subst_first([H|T], NewL, [H|R]):-
+    \+is_list(H),
+    subst_first(T, NewL, R).
+
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+6. 
+a. Determine the product of a number represented as digits in a list to a given digit. 
+Eg.: [1 9 3 5 9 9] * 2 => [3 8 7 1 9 8]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, write a predicate to replace 
+every sublist with the position of the maximum element from that sublist.
+[1, [2, 3], [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, [2], [1, 3], 3, 6, [2], 5, [1, 2, 3], 7]
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+list_to_number(L, N):-
+    list_to_number(L, 0, N).
+
+list_to_number([], N, N).
+
+list_to_number([H|T], Acc, N):-
+    Acc1 is Acc*10+H,
+    list_to_number(T, Acc1, N).
+
+number_to_list(N, L):-
+    N =:= 0,
+    !,
+    L = [0].
+
+number_to_list(N, L):-
+    N > 0,
+    number_to_list(N, [], L).
+
+number_to_list(0, Acc, Acc):-
+    Acc \= [].
+
+number_to_list(N, Acc, L):-
+    R is N mod 10,
+    C is N // 10,
+    number_to_list(C, [R|Acc], L).
+
+mul_num(L, D, M):-
+    list_to_number(L, N1),
+    N is N1*D,
+    number_to_list(N, M). 
+
+mul_sublist([], _, []).
+mul_sublist([H|T], D, [R1|R2]):-
+    is_list(H),
+    !,
+    mul_num(H, D, R1),
+    mul_sublist(T, D, R2).
+
+mul_sublist([H|T], D, [H|R]):-
+    \+is_list(H),
+    mul_sublist(T, D, R).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+7. 
+a. Determine the position of the maximal element of a linear list. 
+Eg.: maxpos([10,14,12,13,14], L) produces L = [2,5].
+b. For a heterogeneous list, formed from integer numbers and list of numbers, replace every sublist with the 
+position of the maximum element from that sublist.
+[1, [2, 3], [4, 1, 4], 3, 6, [7, 10, 1, 3, 9], 5, [1, 1, 1], 7] =>
+[1, [2], [1, 3], 3, 6, [2], 5, [1, 2, 3], 7]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+max2(A,B,A):- A >= B.
+max2(A,B,B):- A < B.
+
+max([X], X).
+
+max([H|T], M):-
+    max(T, M1),
+    max2(H, M1, M).
+
+max_pos(L, P):-
+    max(L, M),
+    max_pos_list(L, M, 1, P).
+
+max_pos_list([], _, _,[]).
+
+max_pos_list([H|T], M, Pos, [Pos|R]):-
+    H =:= M,
+    !,
+    Pos1 is Pos + 1,
+    max_pos_list(T, M, Pos1, R).
+
+max_pos_list([H|T], M, Pos, R):-
+    H =\= M,
+    Pos1 is Pos + 1,
+    max_pos_list(T, M, Pos1, R).
+
+max_pos_sublist([], []).
+max_pos_sublist([H|T], [R1|R2]):-
+    is_list(H),
+    !,
+    max_pos(H, R1),
+    max_pos_sublist(T, R2).
+
+max_pos_sublist([H|T], [H|R]):-
+    \+is_list(H),
+    max_pos_sublist(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+
+
+8. 
+a. Determine the successor of a number represented as digits in a list. 
+Eg.: [1 9 3 5 9 9] --> [1 9 3 6 0 0]
+b. For a heterogeneous list, formed from integer numbers and list of numbers, determine the successor of a 
+sublist considered as a number.
+[1, [2, 3], 4, 5, [6, 7, 9], 10, 11, [1, 2, 0], 6] => 
+[1, [2, 4], 4, 5, [6, 8, 0], 10, 11, [1, 2, 1], 6]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+list_to_number(L, N):-
+    list_to_number(L, 0, N).
+
+list_to_number([], N, N).
+
+list_to_number([H|T], Acc, N):-
+    Acc1 is Acc*10+H,
+    list_to_number(T, Acc1, N).
+
+number_to_list(N, L):-
+    N =:= 0,
+    !,
+    L = [0].
+
+number_to_list(N, L):-
+    N > 0,
+    number_to_list(N, [], L).
+
+number_to_list(0, Acc, Acc):-
+    Acc \= [].
+
+number_to_list(N, Acc, L):-
+    R is N mod 10,
+    C is N // 10,
+    number_to_list(C, [R|Acc], L).
+
+pred_num(L, P):-
+    list_to_number(L, N),
+    N1 is N-1,
+    number_to_list(N1, P). 
+
+pred_sublist([], []).
+pred_sublist([H|T], [R1|R2]):-
+    is_list(H),
+    !,
+    pred_num(H, R1),
+    pred_sublist(T, R2).
+
+pred_sublist([H|T], [H|R]):-
+    \+is_list(H),
+    pred_sublist(T, R).
+
+/** <examples> Your example queries go here, e.g.
+?- remove_elem([1,2,1,4,3,5,1],1,R).
+*/
+
+
+
+9. 
+a. For a list of integer number, write a predicate to add in list after 1-st, 3-rd, 7-th, 15-th element a given value 
+e.
+b. For a heterogeneous list, formed from integer numbers and list of numbers; add in every sublist after 1-st, 
+3-rd, 7-th, 15-th element the value found before the sublist in the heterogenous list. The list has the particularity 
+that starts with a number and there aren’t two consecutive elements lists.
+Eg.: [1, [2, 3], 7, [4, 1, 4], 3, 6, [7, 5, 1, 3, 9, 8, 2, 7], 5] =>
+[1, [2, 1, 3], 7, [4, 7, 1, 4, 7], 3, 6, [7, 6, 5, 1, 6, 3, 9, 8, 2, 6, 7], 5].
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+insert_after(L, E, R):-
+    insert(L, E, 1, 1, R).
+
+insert([],_,_,_,[]).
+
+insert([H|T], E, I, P, [H , E|R]):-
+    I =:= P,
+    P1 is P * 2 + 1,
+    I1 is I + 1,
+    insert(T, E, I1, P1, R).
+
+insert([H|T], E, I, P, [H|R]):-
+    I =\= P,
+    I1 is I + 1,
+    insert(T, E, I1, P, R).
+
+insert_sub([], _, []).
+
+insert_sub([H|T], Prev, [R1|R2]):-
+    is_list(H),
+    insert_after(H, Prev, R1),
+    insert_sub(T, Prev, R2).
+
+insert_sub([H|T], _, [H|R2]):-
+    \+is_list(H),
+    insert_sub(T, H, R2).
+
+add_after(L, R):-
+    L = [H|_],
+    insert_sub(L, H, R).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+10. 
+a. For a list of integer numbers, define a predicate to write twice in list every prime number.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to write in 
+every sublist twice every prime number.
+Eg.: [1, [2, 3], 4, 5, [1, 4, 6], 3, [1, 3, 7, 9, 10], 5] =>
+[1, [2, 2, 3, 3], 4, 5, [1, 4, 6], 3, [1, 3, 3, 7, 7, 9, 10], 5]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+
+divides(N, D):-
+    N mod D =:= 0.
+
+has_divisor(N, D):-
+    D * D =< N,
+    divides(N, D),
+    !.
+
+has_divisor(N, D):-
+    D * D =< N,
+    D1 is D + 1,
+    has_divisor(N, D1).
+        
+prime(N):-
+    N > 1,
+    \+ has_divisor(N, 2).
+
+duplicate_primes([],[]).
+
+duplicate_primes([H|T], [H,H|R]):-
+    prime(H),
+    duplicate_primes(T, R).
+
+duplicate_primes([H|T], [H|R]):-
+    \+prime(H),
+    duplicate_primes(T, R).
+
+dup_list([], []).
+
+dup_list([H|T], [R1|R2]):-
+    is_list(H),
+    !,
+    duplicate_primes(H, R1),
+    dup_list(T, R2).
+        
+dup_list([H|T], [H|R2]):-
+    \+is_list(H),
+    dup_list(T, R2).
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+11.
+a. Replace all occurrences of an element from a list with another element e.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to determine 
+the maximum number of the list, and then to replace this value in sublists with the maximum value of sublist.
+Eg.: [1, [2, 5, 7], 4, 5, [1, 4], 3, [1, 3, 5, 8, 5, 4], 5, [5, 9, 1], 2] =>
+[1, [2, 7, 7], 4, 5, [1, 4], 3, [1, 3, 8, 8, 8, 4], 5, [9, 9, 1], 2]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+replace([], _, _, []).
+
+replace([H|T], E, N, [N|R]):-
+    H == E,
+    replace(T, E, N, R).
+
+
+replace([H|T], E, N, [H|R]):-
+    H =\= E,
+    replace(T, E, N, R).
+
+max(A, B, A):- A>=B.
+
+max(A, B, B):- A < B.
+
+max_list([X], X).
+
+max_list([H|T], M):-
+    max_list(T, M1),
+    max(H, M1, M).
+
+max_hetero([H], H) :-
+    \+ is_list(H).
+
+max_hetero([H], M) :-
+    is_list(H),
+    max_list(H, M).
+
+max_hetero([H|T], M) :-
+    \+ is_list(H),
+    max_hetero(T, MT),
+    max(H, MT, M).
+
+max_hetero([H|T], M) :-
+    \+ is_list(H),
+    max_hetero(T, M).
+
+max_hetero([H|T], M) :-
+    is_list(H),
+    max_list(H, M),
+    max_hetero(T, MT),
+    max(H, MT, M).
+
+max_hetero([H|T], M) :-
+    is_list(H),
+    max_hetero(T, M).
+
+process([], _, []).
+
+process([H|T], G, [R1|R2]):-
+    is_list(H),
+    max_list(H, M1),
+    replace(H, G, M1, R1),
+    process(T, G, R2).
+
+process([H|T], G, [H|R2]):-
+    \+is_list(H),
+    process(T, G, R2).
+
+replace_global(L, R):-
+    max_hetero(L, M),
+    process(L, M, R).
+
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+12.
+a. Define a predicate to add after every element from a list, the divisors of that number.
+b. For a heterogeneous list, formed from integer numbers and list of numbers, define a predicate to add in 
+every sublist the divisors of every element.
+Eg.: [1, [2, 5, 7], 4, 5, [1, 4], 3, 2, [6, 2, 1], 4, [7, 2, 8, 1], 2] =>
+[1, [2, 5, 7], 4, 5, [1, 4, 2], 3, 2, [6, 2, 3, 2, 1], 4, [7, 2, 8, 2, 4, 1], 2]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+
+append([], L, L).
+append([H|T], L, [H|R]):-
+    append(T, L, R).
+
+divisors_list(N, [], D):-
+    D > N.
+
+divisors_list(N, [D|T], D):-
+    D =< N,
+    N mod D = 0,
+    D1 is D + 1,
+    divisors_list(N, T, D1).
+
+divisors_list(N, T, D):-
+    D =< N,
+    N mod D =\= 0,
+    D1 is D + 1,
+    divisors_list(N, T, D1).
+
+add_divisors([], []).
+
+add_divisors([H|T], [H|R]):-
+    is_list(H),
+    add_divisors(H, HR),
+    append(HR, [], R),
+    add_divisors(T, R).
+
+
+add_divisors([H|T], [H|R]):-
+    \+is_list(H),
+    divisors_list(H, D, 1),
+    append(D, R1, R),
+    add_divisors(T, R1).
+
+add_divisors_hetero([], [])
+
+add_divisors_hetero([H|T], [H|R]) :-
+    \+ is_list(H),
+    add_divisors_hetero(T, R)
+
+add_divisors_hetero([H|T], [HR|R]) :-
+    is_list(H),
+    add_divisors(H, HR),
+    add_divisors_hetero(T, R)
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+13.
+a. Given a linear numerical list write a predicate to remove all sequences of consecutive values. 
+Eg.: remove([1, 2, 4, 6, 7, 8, 10], L) will produce L=[4, 10].
+b. For a heterogeneous list, formed from integer numbers and list of numbers; write a predicate to delete from 
+every sublist all sequences of consecutive values.
+Eg.: [1, [2, 3, 5], 9, [1, 2, 4, 3, 4, 5, 7, 9], 11, [5, 8, 2], 7] =>
+[1, [5], 9, [4, 7, 9], 11, [5, 8, 2], 7] 
+
+
+
+
+TESTE
+Se da o lista L de numere si atomi.
+a) Sa se stearga toate elementele de valoare para din lista.
+b) Sa se dubleze elementele numerice ramase si sa se determine cel mai mic multiplu comun al
+elementelor numerice din aceasta lista.
+L = [ a, m, 10, 5, 6, 2, 3, 10, n, z ]
+a) Ln = [ a, m, 5, 5, 3, 3 n, z ]
+b) cmmmcL = 15
+
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+stergere_pare([],[]).
+stergere_pare([H|T], [H|R]):-
+    number(H),
+    H mod 2 =:= 1,
+    stergere_pare(T, R).
+
+stergere_pare([H|T], R):-
+    number(H),
+    H mod 2 =:= 0,
+    stergere_pare(T, R).
+    
+
+stergere_pare([H|T], [H|R]):-
+    \+ number(H),
+    stergere_pare(T, R).
+
+
+dublare_lista([],[]).
+dublare_lista([H|T], [H, H|R]):-
+    number(H),
+    !,
+    dublare_lista(T, R).
+dublare_lista([H|T], [H|R]):-
+    \+number(H),
+    dublare_lista(T, R).
+dublare_lista_final(L, R):-
+    stergere_pare(L, R1),
+    dublare_lista(R1, R).
+
+
+doar_numere([],[]).
+
+doar_numere([H|T], [H|R]):-
+    number(H),
+    !,
+    doar_numere(T, R).
+
+doar_numere([H|T], R):-
+   \+ number(H),
+    doar_numere(T, R).
+
+cmmdc(A,0,A):-
+    !.
+    
+cmmdc(A, B, D):-
+    R is A mod B,
+    cmmdc(B,R,D).
+
+cmmmc(A, B, M):-
+    cmmdc(A,B,D),
+    M is A*B // D.
+        
+cmmmc_lista([X], X):-
+    !.
+
+cmmmc_lista([H1, H2|T], M):-
+    cmmmc(H1, H2, M1),
+    cmmmc_lista([M1|T], M).
+
+cmmmc_lista_finala(L, M) :-
+    dublare_lista_final(L, LD),
+    doar_numere(LD, LF),
+    cmmmc_lista(LF, M).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+Se da o lista L de numere si de atomi.
+a) Sa se stearga toti atomi si toate elementele de valoare impara din lista si sa se determine
+cmmdc al acestei liste.
+b) Sa se dubleze elementele ramase in lista.
+L = [ a, m, 10, 5, 6, 2, 3, 12, 2, n, z ]
+a) NL = [10, 6, 2, 12, 2]
+b) NL = [10, 10, 6, 6, 2, 2, 12, 12, 2, 2]
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+stergere_pare([],[]).
+stergere_pare([H|T], [H|R]):-
+    number(H),
+    H mod 2 =:= 1,
+    stergere_pare(T, R).
+
+stergere_pare([H|T], R):-
+    number(H),
+    H mod 2 =:= 0,
+    stergere_pare(T, R).
+    
+
+stergere_pare([H|T], [H|R]):-
+    \+ number(H),
+    stergere_pare(T, R).
+
+
+dublare_lista([],[]).
+dublare_lista([H|T], [H, H|R]):-
+    number(H),
+    !,
+    dublare_lista(T, R).
+dublare_lista([H|T], [H|R]):-
+    \+number(H),
+    dublare_lista(T, R).
+dublare_lista_final(L, R):-
+    stergere_pare(L, R1),
+    dublare_lista(R1, R).
+
+
+doar_numere([],[]).
+
+doar_numere([H|T], [H|R]):-
+    number(H),
+    !,
+    doar_numere(T, R).
+
+doar_numere([H|T], R):-
+   \+ number(H),
+    doar_numere(T, R).
+
+cmmdc(A,0,A):-
+    !.
+    
+cmmdc(A, B, D):-
+    R is A mod B,
+    cmmdc(B,R,D).
+
+cmmmc(A, B, M):-
+    cmmdc(A,B,D),
+    M is A*B // D.
+        
+cmmdc_lista([X], X):-
+    !.
+
+cmmdc_lista([H1, H2|T], C):-
+    cmmdc(H1, H2, C1),
+    cmmdc_lista([C1|T], C).
+
+cmmdc_lista_finala(L, C) :-
+    dublare_lista_final(L, LD),
+    doar_numere(LD, LF),
+    cmmdc_lista(LF, C).
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
+
+
+
+
+Se da o lista neliniara formata din numere si atomi.
+Sa se determine, in ordine inversa, toate elementele nenumerice unice din lista data.
+L= (3 a (b (c (4 (d 5) b 3)) 7)) => R = (b d c a)
+
+
+
+Se da o lista L de numere intregi, pozitive si negative.
+a) Sa se creeze 2 liste N si P astfel: P va contine doar numerele pozitive, iar N va contine
+numerele negative.
+b) Determinati elementele minime din cele doua liste create.
+L = [2, 4, 9, -7, -6, 4, -5]
+a) N = [-7, -6, -5]
+P = [2, 4, 9, 4]
+b) Min_n = -7
+Min_p = 2
+
+% Student exercise profile
+:- set_prolog_flag(occurs_check, error).        % disallow cyclic terms
+:- set_prolog_stack(global, limit(8 000 000)).  % limit term space (8Mb)
+:- set_prolog_stack(local,  limit(2 000 000)).  % limit environment space
+
+% Your program goes here
+separare([], [], []).
+
+separare([H|T], N, [H|P]):-
+    H >= 0,
+    separare(T, N, P).
+
+separare([H|T], [H|N], P):-
+    H < 0,
+    separare(T, N, P).
+
+min2(A,B,A):- A =< B.
+min2(A,B,B):- A > B.
+min_list_one([X], X).
+min_list_one([H|T], M):-
+    min_list_one(T, M1),
+    min2(H, M1, M).
+    
+
+min_list(L, [M1, M2]):-
+    separare(L, N, P),
+    min_list_one(N, M1),
+    min_list_one(P, M2).
+    
+
+
+/** <examples> Your example queries go here, e.g.
+?- member(X, [cat, mouse]).
+*/
