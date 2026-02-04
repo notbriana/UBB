@@ -1,5 +1,0 @@
-Alice Johnson;Main Street 12;10.5 22.3;0
-Bob Smith;Oak Avenue 55;15 18.2;1
-Charlie Lee;Maple Street 8;8.1 12.9;0
-Diana Wells;Main Street 33;10.8 21.7;0
-Evan Stone;Pine Road 7;20.2 30.5;1

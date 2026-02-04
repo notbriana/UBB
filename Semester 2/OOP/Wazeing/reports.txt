@@ -1,4 +1,0 @@
-a|Bob 20 24 1 2
-adad|Alice 3 10 1 2
-bb|Alice 12 14 1 2
-c|Bob 20 24 0 2

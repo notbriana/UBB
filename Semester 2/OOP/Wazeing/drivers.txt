@@ -1,3 +1,0 @@
-Alice baby 10 15 9
-Bob grown-up 17.5 25.3 12
-Charlie knight 5 7.5 16

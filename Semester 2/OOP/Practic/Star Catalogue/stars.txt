@@ -1,0 +1,8 @@
+Schedar Cassiopeia 10 56 12.3
+Caph Cassiopeia 2 59 11.7
+V Lyra 279 38 25
+Sheliak Lyra 281 33 13.5
+Betelgeuse Orion 88 7 20.5
+Rigel Orion 78 -8 18.2
+Bellatri Orion 81 6 15
+a Orion 12 34 4

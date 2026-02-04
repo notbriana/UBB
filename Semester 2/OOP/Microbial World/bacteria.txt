@@ -1,6 +1,0 @@
-B;Salmonella;4;disease1,disease2,anan
-B2;Salmonella;7;disease3
-B3;Staphylococcus;4;disease4
-aaama;Staphylococcus;4;disease
-;Staphylococcus;0;
-a;E.coli;3;a

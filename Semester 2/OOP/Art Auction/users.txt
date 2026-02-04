@@ -1,3 +1,0 @@
-alice 1 collector
-bob 2 collector
-carol 3 administrator

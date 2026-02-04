@@ -1,0 +1,11 @@
+Opening scene in a busy city,proposed,Alice Johnson,1
+A mysterious stranger arrives,accepted,Bob Smith,1
+The main character receives a strange letter,proposed,Carol Lee,1
+A secret meeting in a dark alley,proposed,Alice Johnson,2
+A chase through the marketplace,proposed,Bob Smith,2
+The villain reveals their plan,proposed,Carol Lee,2
+A close friend betrays the protagonist,proposed,Alice Johnson,2
+A dramatic confrontation on a rooftop,proposed,Bob Smith,3
+The main character makes a difficult choice,accepted,Carol Lee,3
+Resolution and a hint at a sequel,accepted,Alice Johnson,3
+de,proposed,Alice Johnson,2

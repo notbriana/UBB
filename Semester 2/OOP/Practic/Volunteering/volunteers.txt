@@ -1,0 +1,15 @@
+Alice Smith|alice.smith@email.com|teaching,reading,children|Education
+Bob Johnson|bob.johnson@email.com|first aid,patients,care|Healthcare
+Carol White|carol.white@email.com|recycling,cleaning,trees|Environment
+David Brown|david.brown@email.com|events,donations,marketing|Fundraising
+Eva Green|eva.green@email.com|community,helping,organizing|Community Outreach
+Frank Black|frank.black@email.com|animals,rescue,feeding|Animal Welfare
+Grace Lee|grace.lee@email.com|planning,coordinating,events|Event Planning
+Henry King|henry.king@email.com|computers,networks,software|IT Support
+Ivy Young|ivy.young@email.com|media,writing,publicity|Public Relations
+Jack Hill|jack.hill@email.com|logistics,transport,supplies|
+a|a|media communications|
+a|a|media communications|
+aa|aa|media communications|
+bbb|nnn|managing,events,coordinating|
+nanann|nannana|engaging,local,communities,needs|

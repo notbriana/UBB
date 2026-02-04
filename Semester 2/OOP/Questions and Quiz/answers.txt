@@ -1,7 +1,0 @@
-1 1 0|bob|Use std::reverse from <algorithm>.
-2 1 4|carol|You can write a loop to swap characters.
-3 2 2|alice|A smart pointer manages memory automatically.
-4 3 6|bob|Include <vector> and use push_back to add elements.
-5 3 0|carol|maxa
-6 3 4|alice|lssdl
-7 4 0|carol|jwfkwfk
