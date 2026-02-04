@@ -1,0 +1,12 @@
+Potato family|Potato|fruit
+Potato family|Tomato|fruit
+Beetroot family|Spinach|leaves
+Marrow family|Melon|fruit
+Onion family|Onion|stem, root
+Beetroot family|Beetroot|root
+Marrow family|Cucumber|fruit
+Potato family|Eggplant|fruit
+Onion family|Garlic|bulb
+Beetroot family|Chard|leaves, stems
+Marrow family|Zucchini|fruit
+Potato family|Bell Pepper|fruit
